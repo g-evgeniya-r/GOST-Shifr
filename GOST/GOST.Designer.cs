@@ -128,7 +128,7 @@
             this.textBoxOriginal.Location = new System.Drawing.Point(12, 58);
             this.textBoxOriginal.Multiline = true;
             this.textBoxOriginal.Name = "textBoxOriginal";
-            this.textBoxOriginal.Size = new System.Drawing.Size(373, 380);
+            this.textBoxOriginal.Size = new System.Drawing.Size(380, 380);
             this.textBoxOriginal.TabIndex = 1;
             // 
             // textBoxProcessed
