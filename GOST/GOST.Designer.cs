@@ -68,6 +68,7 @@
             this.toolStripShifr.Name = "toolStripShifr";
             this.toolStripShifr.Size = new System.Drawing.Size(23, 22);
             this.toolStripShifr.Text = "toolStripButton1";
+            this.toolStripShifr.Click += new System.EventHandler(this.toolStripShifr_Click);
             // 
             // toolStripDeshifr
             // 
@@ -95,6 +96,7 @@
             this.toolStripCopy.Name = "toolStripCopy";
             this.toolStripCopy.Size = new System.Drawing.Size(23, 22);
             this.toolStripCopy.Text = "toolStripButton4";
+            this.toolStripCopy.Click += new System.EventHandler(this.toolStripCopy_Click);
             // 
             // toolStripCutOut
             // 
@@ -104,6 +106,7 @@
             this.toolStripCutOut.Name = "toolStripCutOut";
             this.toolStripCutOut.Size = new System.Drawing.Size(23, 22);
             this.toolStripCutOut.Text = "toolStripButton5";
+            this.toolStripCutOut.Click += new System.EventHandler(this.toolStripCutOut_Click);
             // 
             // toolStripSave
             // 
@@ -125,6 +128,7 @@
             // 
             // textBoxOriginal
             // 
+            this.textBoxOriginal.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxOriginal.Location = new System.Drawing.Point(12, 58);
             this.textBoxOriginal.Multiline = true;
             this.textBoxOriginal.Name = "textBoxOriginal";
@@ -133,9 +137,11 @@
             // 
             // textBoxProcessed
             // 
+            this.textBoxProcessed.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxProcessed.Location = new System.Drawing.Point(415, 58);
             this.textBoxProcessed.Multiline = true;
             this.textBoxProcessed.Name = "textBoxProcessed";
+            this.textBoxProcessed.ReadOnly = true;
             this.textBoxProcessed.Size = new System.Drawing.Size(370, 380);
             this.textBoxProcessed.TabIndex = 2;
             // 
