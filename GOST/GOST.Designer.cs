@@ -78,6 +78,7 @@
             this.toolStripDeshifr.Name = "toolStripDeshifr";
             this.toolStripDeshifr.Size = new System.Drawing.Size(23, 22);
             this.toolStripDeshifr.Text = "toolStripButton2";
+            this.toolStripDeshifr.Click += new System.EventHandler(this.toolStripDeshifr_Click);
             // 
             // toolStripAttach
             // 
