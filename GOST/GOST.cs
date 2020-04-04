@@ -374,7 +374,6 @@ namespace GOST
                 processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
             }
             textBoxProcessed.Text = processed;
-            //textBoxProcessed.Text = Convert.ToString(Convert.ToInt32(''));
             processed = "";
         }
     }
