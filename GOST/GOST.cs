@@ -258,7 +258,7 @@ namespace GOST
                               Convert.ToInt64(Math.Pow(2, 16)) +
                               Convert.ToInt64(textBoxOriginal.Text[i + 3]);
                     long X0;
-                    if (j == 0)
+                    if (j != 15)
                         X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
                     else
                         X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
@@ -290,7 +290,7 @@ namespace GOST
                           Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
                 long R1 = 0;
                 long X0;
-                if (j == 0)
+                if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
                 else
                     X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
@@ -321,7 +321,7 @@ namespace GOST
                           Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
                 long R1 = 0;
                 long X0;
-                if (j == 0)
+                if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
                 else
                     X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
@@ -353,7 +353,7 @@ namespace GOST
                 long R1 = Convert.ToInt64(Math.Pow(2, 16)) *
                           Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
                 long X0;
-                if (j == 0)
+                if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
                 else
                     X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
