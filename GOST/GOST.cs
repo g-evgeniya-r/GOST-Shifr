@@ -54,109 +54,18 @@ namespace GOST
         {
             int j = -1;
             int n = textBoxOriginal.Text.Length;
-            if (n >= 4)
+            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textBoxOriginal.Text += " ";
+            for (int i = 0; i <= textBoxOriginal.Text.Length - 4; i += 4)
             {
-                for (int i = 0; i < textBoxOriginal.Text.Length - 4; i += 4)
-                {
-                    if (j + 1 == 16)
-                        j = 0;
-                    else
-                        j++;
-                    long L0 = Convert.ToInt64(textBoxOriginal.Text[i]) *
-                              Convert.ToInt64(Math.Pow(2, 16)) +
-                              Convert.ToInt64(textBoxOriginal.Text[i + 1]);
-                    long R0 = Convert.ToInt64(textBoxOriginal.Text[i + 2]) *
-                              Convert.ToInt64(Math.Pow(2, 16)) +
-                              Convert.ToInt64(textBoxOriginal.Text[i + 3]);
-                    processed += (Convert.ToString(textBoxOriginal.Text[i + 2]) +
-                                  Convert.ToString(textBoxOriginal.Text[i + 3]));
-                    long X0;
-                    if (j != 15)
-                        X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                    else
-                        X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                    long[] L0Xor = new long[32];
-                    long[] resultXor = new long[32];
-                    long result = Conversion(R0, X0);
-                    for (int p = 31; p >= 0; p--)
-                    {
-                        L0Xor[p] = L0 % 2;
-                        L0 /= 2;
-                        resultXor[p] = result % 2;
-                        result /= 2;
-                    }
-                    long[] R1 = Xor(L0Xor, resultXor);
-                    Processing(R1);
-                    n -= 4;
-                }
-            }
-            if (n == 1)
-            {
-                if (j + 1 == 16)
-                    j = 0;
-                else
-                    j++;
-                long L0 = Convert.ToInt64(Math.Pow(2, 16)) *
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
-                long R0 = 0;
-                long X0;
-                if (j != 15)
-                    X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                else
-                    X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                long[] L0Xor = new long[32];
-                long[] resultXor = new long[32];
-                long result = Conversion(R0, X0);
-                for (int p = 31; p >= 0; p--)
-                {
-                    L0Xor[p] = L0 % 2;
-                    L0 /= 2;
-                    resultXor[p] = result % 2;
-                    result /= 2;
-                }
-                long[] R1 = Xor(L0Xor, resultXor);
-                Processing(R1);
-            }
-            if (n == 2)
-            {
-                if (j + 1 == 16)
-                    j = 0;
-                else
-                    j++;
-                long L0 = Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 2]) *
+                j = (j + 1) % 16;
+                long L0 = Convert.ToInt64(textBoxOriginal.Text[i]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
-                long R0 = 0;
-                long X0;
-                if (j != 15)
-                    X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                else
-                    X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                long[] L0Xor = new long[32];
-                long[] resultXor = new long[32];
-                long result = Conversion(R0, X0);
-                for (int p = 31; p >= 0; p--)
-                {
-                    L0Xor[p] = L0 % 2;
-                    L0 /= 2;
-                    resultXor[p] = result % 2;
-                    result /= 2;
-                }
-                long[] R1 = Xor(L0Xor, resultXor);
-                Processing(R1);
-            }
-            if (n == 3)
-            {
-                if (j + 1 == 16)
-                    j = 0;
-                else
-                    j++;
-                long L0 = Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 3]) *
+                          Convert.ToInt64(textBoxOriginal.Text[i + 1]);
+                long R0 = Convert.ToInt64(textBoxOriginal.Text[i + 2]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 2]);
-                long R0 = Convert.ToInt64(Math.Pow(2, 16)) *
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
-                processed += Convert.ToString(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
+                          Convert.ToInt64(textBoxOriginal.Text[i + 3]);
+                processed += (Convert.ToString(textBoxOriginal.Text[i + 2]) +
+                              Convert.ToString(textBoxOriginal.Text[i + 3]));
                 long X0;
                 if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
@@ -174,6 +83,7 @@ namespace GOST
                 }
                 long[] R1 = Xor(L0Xor, resultXor);
                 Processing(R1);
+                n -= 4;
             }
             textBoxProcessed.Text = processed;
             processed = "";
@@ -243,115 +153,16 @@ namespace GOST
         {
             int j = -1;
             int n = textBoxOriginal.Text.Length;
-            if (n >= 4)
+            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textBoxOriginal.Text += " ";
+            for (int i = 0; i <= textBoxOriginal.Text.Length - 4; i += 4)
             {
-                for (int i = 0; i < textBoxOriginal.Text.Length - 4; i += 4)
-                {
-                    if (j + 1 == 16)
-                        j = 0;
-                    else
-                        j++;
-                    long R0 = Convert.ToInt64(textBoxOriginal.Text[i]) *
-                              Convert.ToInt64(Math.Pow(2, 16)) +
-                              Convert.ToInt64(textBoxOriginal.Text[i + 1]);
-                    long R1 = Convert.ToInt64(textBoxOriginal.Text[i + 2]) *
-                              Convert.ToInt64(Math.Pow(2, 16)) +
-                              Convert.ToInt64(textBoxOriginal.Text[i + 3]);
-                    long X0;
-                    if (j != 15)
-                        X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                    else
-                        X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                    long[] R1Xor = new long[32];
-                    long[] resultXor = new long[32];
-                    long result = Conversion(R0, X0);
-                    for (int p = 31; p >= 0; p--)
-                    {
-                        R1Xor[p] = R1 % 2;
-                        R1 /= 2;
-                        resultXor[p] = result % 2;
-                        result /= 2;
-                    }
-                    long[] L0 = Xor(R1Xor, resultXor);
-                    Processing(L0);
-
-                    processed += Convert.ToChar(R0 / Convert.ToInt64(Math.Pow(2, 16)));
-                    processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
-                    n -= 4;
-                }
-            }
-            if (n == 1)
-            {
-                if (j + 1 == 16)
-                    j = 0;
-                else
-                    j++;
-                long R0 = Convert.ToInt64(Math.Pow(2, 16)) *
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
-                long R1 = 0;
-                long X0;
-                if (j != 15)
-                    X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                else
-                    X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                long[] R1Xor = new long[32];
-                long[] resultXor = new long[32];
-                long result = Conversion(R0, X0);
-                for (int p = 31; p >= 0; p--)
-                {
-                    R1Xor[p] = R1 % 2;
-                    R1 /= 2;
-                    resultXor[p] = result % 2;
-                    result /= 2;
-                }
-                long[] L0 = Xor(R1Xor, resultXor);
-                Processing(L0);
-
-                processed += Convert.ToChar(R0 / Convert.ToInt64(Math.Pow(2, 16)));
-                processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
-            }
-            if (n == 2)
-            {
-                if (j + 1 == 16)
-                    j = 0;
-                else
-                    j++;
-                long R0 = Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 2]) *
+                j = (j + 1) % 16;
+                long R0 = Convert.ToInt64(textBoxOriginal.Text[i]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
-                long R1 = 0;
-                long X0;
-                if (j != 15)
-                    X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                else
-                    X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                long[] R1Xor = new long[32];
-                long[] resultXor = new long[32];
-                long result = Conversion(R0, X0);
-                for (int p = 31; p >= 0; p--)
-                {
-                    R1Xor[p] = R1 % 2;
-                    R1 /= 2;
-                    resultXor[p] = result % 2;
-                    result /= 2;
-                }
-                long[] L0 = Xor(R1Xor, resultXor);
-                Processing(L0);
-
-                processed += Convert.ToChar(R0 / Convert.ToInt64(Math.Pow(2, 16)));
-                processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
-            }
-            if (n == 3)
-            {
-                if (j + 1 == 16)
-                    j = 0;
-                else
-                    j++;
-                long R0 = Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 3]) *
+                          Convert.ToInt64(textBoxOriginal.Text[i + 1]);
+                long R1 = Convert.ToInt64(textBoxOriginal.Text[i + 2]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 2]);
-                long R1 = Convert.ToInt64(Math.Pow(2, 16)) *
-                          Convert.ToInt64(textBoxOriginal.Text[textBoxOriginal.Text.Length - 1]);
+                          Convert.ToInt64(textBoxOriginal.Text[i + 3]);
                 long X0;
                 if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
@@ -372,6 +183,7 @@ namespace GOST
 
                 processed += Convert.ToChar(R0 / Convert.ToInt64(Math.Pow(2, 16)));
                 processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
+                n -= 4;
             }
             textBoxProcessed.Text = processed;
             processed = "";
