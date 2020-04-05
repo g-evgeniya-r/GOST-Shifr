@@ -140,11 +140,11 @@ namespace GOST
 
         private void toolStripCopy_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(textBoxProcessed.Text);
         }
 
         private void toolStripCutOut_Click(object sender, EventArgs e)
         {
+            Clipboard.SetText(textBoxProcessed.Text);
             textBoxOriginal.Clear();
             textBoxProcessed.Clear();
         }
@@ -187,6 +187,12 @@ namespace GOST
             }
             textBoxProcessed.Text = processed;
             processed = "";
+        }
+
+        private void buttonCarryover_Click(object sender, EventArgs e)
+        {
+            textBoxOriginal.Text = textBoxProcessed.Text;
+            textBoxProcessed.Clear();
         }
     }
 }

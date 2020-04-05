@@ -33,7 +33,6 @@
             this.toolStripShifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripDeshifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripAttach = new System.Windows.Forms.ToolStripButton();
-            this.toolStripCopy = new System.Windows.Forms.ToolStripButton();
             this.toolStripCutOut = new System.Windows.Forms.ToolStripButton();
             this.toolStripSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripInfo = new System.Windows.Forms.ToolStripButton();
@@ -41,6 +40,7 @@
             this.textBoxProcessed = new System.Windows.Forms.TextBox();
             this.labelOriginal = new System.Windows.Forms.Label();
             this.labelProcessed = new System.Windows.Forms.Label();
+            this.buttonCarryover = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +50,6 @@
             this.toolStripShifr,
             this.toolStripDeshifr,
             this.toolStripAttach,
-            this.toolStripCopy,
             this.toolStripCutOut,
             this.toolStripSave,
             this.toolStripInfo});
@@ -67,7 +66,7 @@
             this.toolStripShifr.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripShifr.Name = "toolStripShifr";
             this.toolStripShifr.Size = new System.Drawing.Size(23, 22);
-            this.toolStripShifr.Text = "toolStripButton1";
+            this.toolStripShifr.Text = "Зашифровать";
             this.toolStripShifr.Click += new System.EventHandler(this.toolStripShifr_Click);
             // 
             // toolStripDeshifr
@@ -77,7 +76,7 @@
             this.toolStripDeshifr.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDeshifr.Name = "toolStripDeshifr";
             this.toolStripDeshifr.Size = new System.Drawing.Size(23, 22);
-            this.toolStripDeshifr.Text = "toolStripButton2";
+            this.toolStripDeshifr.Text = "Расшифровать";
             this.toolStripDeshifr.Click += new System.EventHandler(this.toolStripDeshifr_Click);
             // 
             // toolStripAttach
@@ -87,17 +86,7 @@
             this.toolStripAttach.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripAttach.Name = "toolStripAttach";
             this.toolStripAttach.Size = new System.Drawing.Size(23, 22);
-            this.toolStripAttach.Text = "toolStripButton3";
-            // 
-            // toolStripCopy
-            // 
-            this.toolStripCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripCopy.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCopy.Image")));
-            this.toolStripCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripCopy.Name = "toolStripCopy";
-            this.toolStripCopy.Size = new System.Drawing.Size(23, 22);
-            this.toolStripCopy.Text = "toolStripButton4";
-            this.toolStripCopy.Click += new System.EventHandler(this.toolStripCopy_Click);
+            this.toolStripAttach.Text = "Прикрепить файл";
             // 
             // toolStripCutOut
             // 
@@ -106,7 +95,7 @@
             this.toolStripCutOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripCutOut.Name = "toolStripCutOut";
             this.toolStripCutOut.Size = new System.Drawing.Size(23, 22);
-            this.toolStripCutOut.Text = "toolStripButton5";
+            this.toolStripCutOut.Text = "Очистить поля";
             this.toolStripCutOut.Click += new System.EventHandler(this.toolStripCutOut_Click);
             // 
             // toolStripSave
@@ -116,7 +105,7 @@
             this.toolStripSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSave.Name = "toolStripSave";
             this.toolStripSave.Size = new System.Drawing.Size(23, 22);
-            this.toolStripSave.Text = "toolStripButton6";
+            this.toolStripSave.Text = "Сохранить";
             // 
             // toolStripInfo
             // 
@@ -125,7 +114,7 @@
             this.toolStripInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripInfo.Name = "toolStripInfo";
             this.toolStripInfo.Size = new System.Drawing.Size(23, 22);
-            this.toolStripInfo.Text = "toolStripButton7";
+            this.toolStripInfo.Text = "О программе";
             // 
             // textBoxOriginal
             // 
@@ -133,17 +122,17 @@
             this.textBoxOriginal.Location = new System.Drawing.Point(12, 58);
             this.textBoxOriginal.Multiline = true;
             this.textBoxOriginal.Name = "textBoxOriginal";
-            this.textBoxOriginal.Size = new System.Drawing.Size(370, 380);
+            this.textBoxOriginal.Size = new System.Drawing.Size(355, 380);
             this.textBoxOriginal.TabIndex = 1;
             // 
             // textBoxProcessed
             // 
             this.textBoxProcessed.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxProcessed.Location = new System.Drawing.Point(415, 58);
+            this.textBoxProcessed.Location = new System.Drawing.Point(431, 58);
             this.textBoxProcessed.Multiline = true;
             this.textBoxProcessed.Name = "textBoxProcessed";
             this.textBoxProcessed.ReadOnly = true;
-            this.textBoxProcessed.Size = new System.Drawing.Size(370, 380);
+            this.textBoxProcessed.Size = new System.Drawing.Size(355, 380);
             this.textBoxProcessed.TabIndex = 2;
             // 
             // labelOriginal
@@ -166,11 +155,29 @@
             this.labelProcessed.TabIndex = 4;
             this.labelProcessed.Text = "Обработанные данные";
             // 
+            // buttonCarryover
+            // 
+            this.buttonCarryover.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonCarryover.BackgroundImage")));
+            this.buttonCarryover.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonCarryover.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonCarryover.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonCarryover.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonCarryover.ForeColor = System.Drawing.Color.Black;
+            this.buttonCarryover.Location = new System.Drawing.Point(373, 219);
+            this.buttonCarryover.Name = "buttonCarryover";
+            this.buttonCarryover.Size = new System.Drawing.Size(52, 45);
+            this.buttonCarryover.TabIndex = 5;
+            this.buttonCarryover.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonCarryover.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonCarryover.UseVisualStyleBackColor = true;
+            this.buttonCarryover.Click += new System.EventHandler(this.buttonCarryover_Click);
+            // 
             // GOST
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 450);
+            this.Controls.Add(this.buttonCarryover);
             this.Controls.Add(this.labelProcessed);
             this.Controls.Add(this.labelOriginal);
             this.Controls.Add(this.textBoxProcessed);
@@ -191,7 +198,6 @@
         private System.Windows.Forms.ToolStripButton toolStripShifr;
         private System.Windows.Forms.ToolStripButton toolStripDeshifr;
         private System.Windows.Forms.ToolStripButton toolStripAttach;
-        private System.Windows.Forms.ToolStripButton toolStripCopy;
         private System.Windows.Forms.ToolStripButton toolStripCutOut;
         private System.Windows.Forms.ToolStripButton toolStripSave;
         private System.Windows.Forms.ToolStripButton toolStripInfo;
@@ -199,6 +205,7 @@
         private System.Windows.Forms.TextBox textBoxProcessed;
         private System.Windows.Forms.Label labelOriginal;
         private System.Windows.Forms.Label labelProcessed;
+        private System.Windows.Forms.Button buttonCarryover;
     }
 }
 
