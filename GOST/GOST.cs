@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -193,6 +194,17 @@ namespace GOST
         {
             textBoxOriginal.Text = textBoxProcessed.Text;
             textBoxProcessed.Clear();
+        }
+
+        private void toolStripAttach_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Filter = "Text file(*.txt)|*.txt|All files(*.*)|*.*";
+            if(op.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamReader sr = new StreamReader(op.FileName))
+                    textBoxOriginal.Text = sr.ReadToEnd();
+            }
         }
     }
 }

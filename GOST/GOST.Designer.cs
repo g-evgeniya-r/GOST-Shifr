@@ -41,7 +41,11 @@
             this.labelOriginal = new System.Windows.Forms.Label();
             this.labelProcessed = new System.Windows.Forms.Label();
             this.buttonCarryover = new System.Windows.Forms.Button();
+            this.pictureBoxOriginal = new System.Windows.Forms.PictureBox();
+            this.axWindowsMediaPlayerOriginal = new AxWMPLib.AxWindowsMediaPlayer();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayerOriginal)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -87,6 +91,7 @@
             this.toolStripAttach.Name = "toolStripAttach";
             this.toolStripAttach.Size = new System.Drawing.Size(23, 22);
             this.toolStripAttach.Text = "Прикрепить файл";
+            this.toolStripAttach.Click += new System.EventHandler(this.toolStripAttach_Click);
             // 
             // toolStripCutOut
             // 
@@ -172,11 +177,32 @@
             this.buttonCarryover.UseVisualStyleBackColor = true;
             this.buttonCarryover.Click += new System.EventHandler(this.buttonCarryover_Click);
             // 
+            // pictureBoxOriginal
+            // 
+            this.pictureBoxOriginal.Location = new System.Drawing.Point(12, 59);
+            this.pictureBoxOriginal.Name = "pictureBoxOriginal";
+            this.pictureBoxOriginal.Size = new System.Drawing.Size(355, 379);
+            this.pictureBoxOriginal.TabIndex = 6;
+            this.pictureBoxOriginal.TabStop = false;
+            this.pictureBoxOriginal.Visible = false;
+            // 
+            // axWindowsMediaPlayerOriginal
+            // 
+            this.axWindowsMediaPlayerOriginal.Enabled = true;
+            this.axWindowsMediaPlayerOriginal.Location = new System.Drawing.Point(12, 59);
+            this.axWindowsMediaPlayerOriginal.Name = "axWindowsMediaPlayerOriginal";
+            this.axWindowsMediaPlayerOriginal.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayerOriginal.OcxState")));
+            this.axWindowsMediaPlayerOriginal.Size = new System.Drawing.Size(355, 379);
+            this.axWindowsMediaPlayerOriginal.TabIndex = 7;
+            this.axWindowsMediaPlayerOriginal.Visible = false;
+            // 
             // GOST
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 450);
+            this.Controls.Add(this.axWindowsMediaPlayerOriginal);
+            this.Controls.Add(this.pictureBoxOriginal);
             this.Controls.Add(this.buttonCarryover);
             this.Controls.Add(this.labelProcessed);
             this.Controls.Add(this.labelOriginal);
@@ -187,6 +213,8 @@
             this.Text = "Шифрование ГОСТ";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayerOriginal)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,6 +234,8 @@
         private System.Windows.Forms.Label labelOriginal;
         private System.Windows.Forms.Label labelProcessed;
         private System.Windows.Forms.Button buttonCarryover;
+        private System.Windows.Forms.PictureBox pictureBoxOriginal;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayerOriginal;
     }
 }
 
