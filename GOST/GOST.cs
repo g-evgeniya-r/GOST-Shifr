@@ -145,9 +145,16 @@ namespace GOST
 
         private void toolStripCutOut_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(textBoxProcessed.Text);
-            textBoxOriginal.Clear();
-            textBoxProcessed.Clear();
+            try
+            {
+                Clipboard.SetText(textBoxProcessed.Text);
+                textBoxOriginal.Clear();
+                textBoxProcessed.Clear();
+            }
+            catch
+            {
+                MessageBox.Show("Поля очищены");
+            }
         }
 
         private void toolStripDeshifr_Click(object sender, EventArgs e)
@@ -200,10 +207,27 @@ namespace GOST
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Filter = "Text file(*.txt)|*.txt|All files(*.*)|*.*";
-            if(op.ShowDialog() == DialogResult.OK)
+            if (op.ShowDialog() == DialogResult.OK)
             {
-                using (StreamReader sr = new StreamReader(op.FileName))
-                    textBoxOriginal.Text = sr.ReadToEnd();
+                try
+                {
+                    Bitmap tempImage = new Bitmap(op.FileName);
+                    pictureBoxOriginal.Image = tempImage;
+                    pictureBoxOriginal.Show();
+                }
+                catch
+                {
+                    try
+                    {
+                        StreamReader sr = new StreamReader(op.FileName);
+                        textBoxOriginal.Text = sr.ReadToEnd();
+                        sr.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Данный тип файла не поддерживается");
+                    }
+                }
             }
         }
     }
