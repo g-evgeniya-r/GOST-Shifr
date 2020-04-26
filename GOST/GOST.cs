@@ -46,6 +46,8 @@ namespace GOST
                                              { 5, 5, 9, 5, 11, 15, 2, 8 },
                                              { 3, 9, 11, 3, 2, 14, 12, 12 } };
         static string processed = "";
+        string textFromFile = "";
+        string ext = "", sizeFile = "", fileNameDeshifr = "";
         public GOST()
         {
             InitializeComponent();
@@ -53,20 +55,25 @@ namespace GOST
 
         private void toolStripShifr_Click(object sender, EventArgs e)
         {
+            StreamWriter sw = new StreamWriter("GOST-"+ sizeFile + "-" + ext + "-.txt");
+            textBoxProcessed.Text = "Идет обработка данных...";
+            if (textBoxOriginal.Text != "")
+                textFromFile = textBoxOriginal.Text;
             int j = -1;
-            int n = textBoxOriginal.Text.Length;
-            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textBoxOriginal.Text += " ";
-            for (int i = 0; i <= textBoxOriginal.Text.Length - 4; i += 4)
+            int n = textFromFile.Length;
+            MessageBox.Show(""+n);
+            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
+            for (int i = 0; i <= textFromFile.Length - 4; i += 4)
             {
                 j = (j + 1) % 16;
-                long L0 = Convert.ToInt64(textBoxOriginal.Text[i]) *
+                long L0 = Convert.ToInt64(textFromFile[i]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[i + 1]);
-                long R0 = Convert.ToInt64(textBoxOriginal.Text[i + 2]) *
+                          Convert.ToInt64(textFromFile[i + 1]);
+                long R0 = Convert.ToInt64(textFromFile[i + 2]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[i + 3]);
-                processed += (Convert.ToString(textBoxOriginal.Text[i + 2]) +
-                              Convert.ToString(textBoxOriginal.Text[i + 3]));
+                          Convert.ToInt64(textFromFile[i + 3]);
+                processed += (Convert.ToString(textFromFile[i + 2]) +
+                              Convert.ToString(textFromFile[i + 3]));
                 long X0;
                 if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
@@ -86,12 +93,15 @@ namespace GOST
                 Processing(R1);
                 n -= 4;
             }
-            textBoxProcessed.Text = processed;
+            sw.Write(processed);
+            MessageBox.Show("" + textBoxProcessed.Text.Length);
             processed = "";
+            sw.Close();
+            textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
         }
         static long Conversion(long R0, long X0)
         {
-            long summ_mod32 = (R0 + X0)%Convert.ToInt64(Math.Pow(2, 32));
+            long summ_mod32 = (R0 + X0) % Convert.ToInt64(Math.Pow(2, 32));
             long[] line = new long[8];
             for (int i = 0; i < 8; i++)
             {
@@ -103,12 +113,12 @@ namespace GOST
                 line[i] = substitution_block[line[i], i];
             }
             return ((line[0] * Convert.ToInt64(Math.Pow(2, 28)) +
-                     line[1] * Convert.ToInt64(Math.Pow(2, 24)) + 
-                     line[2] * Convert.ToInt64(Math.Pow(2, 20)) + 
-                     line[3] * Convert.ToInt64(Math.Pow(2, 16)) + 
-                     line[4] * Convert.ToInt64(Math.Pow(2, 12)) + 
-                     line[5] * Convert.ToInt64(Math.Pow(2, 8)) + 
-                     line[6] * Convert.ToInt64(Math.Pow(2, 4)) 
+                     line[1] * Convert.ToInt64(Math.Pow(2, 24)) +
+                     line[2] * Convert.ToInt64(Math.Pow(2, 20)) +
+                     line[3] * Convert.ToInt64(Math.Pow(2, 16)) +
+                     line[4] * Convert.ToInt64(Math.Pow(2, 12)) +
+                     line[5] * Convert.ToInt64(Math.Pow(2, 8)) +
+                     line[6] * Convert.ToInt64(Math.Pow(2, 4))
                      + line[7]) << 11);
         }
         static long[] Xor(long[] L0Xor, long[] resultXor)
@@ -128,49 +138,60 @@ namespace GOST
             long kod = 0;
             for (int j = 0; j < 16; j++)
             {
-                kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15-j)));
+                kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15 - j)));
             }
             processed += Convert.ToChar(kod);
             kod = 0;
             for (int j = 16; j < 32; j++)
             {
-                kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15-(j-16))));
+                kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15 - (j - 16))));
             }
             processed += Convert.ToChar(kod);
         }
 
-        private void toolStripCopy_Click(object sender, EventArgs e)
-        {
-        }
+        
 
         private void toolStripCutOut_Click(object sender, EventArgs e)
         {
+
+            textBoxOriginal.Text = null;
+
+
+            pictureBoxOriginal.Image = null;
+            pictureBoxOriginal.Hide();
+
+
+
+            axWindowsMediaPlayerOriginal.URL = null;
+            axWindowsMediaPlayerOriginal.Hide();
+
+            textBoxProcessed.Text = null;
+
             try
             {
                 Clipboard.SetText(textBoxProcessed.Text);
-                textBoxOriginal.Clear();
-                textBoxProcessed.Clear();
             }
             catch
             {
                 MessageBox.Show("Поля очищены");
-            }
-        }
+            } 
+        } 
 
         private void toolStripDeshifr_Click(object sender, EventArgs e)
         {
             int j = -1;
-            int n = textBoxOriginal.Text.Length;
-            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textBoxOriginal.Text += " ";
-            for (int i = 0; i <= textBoxOriginal.Text.Length - 4; i += 4)
+            int n = textFromFile.Length;
+            textBoxProcessed.Text = "Идет обработка данных...";
+            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
+            for (int i = 0; i <= textFromFile.Length - 4; i += 4)
             {
                 j = (j + 1) % 16;
-                long R0 = Convert.ToInt64(textBoxOriginal.Text[i]) *
+                long R0 = Convert.ToInt64(textFromFile[i]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[i + 1]);
-                long R1 = Convert.ToInt64(textBoxOriginal.Text[i + 2]) *
+                          Convert.ToInt64(textFromFile[i + 1]);
+                long R1 = Convert.ToInt64(textFromFile[i + 2]) *
                           Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textBoxOriginal.Text[i + 3]);
+                          Convert.ToInt64(textFromFile[i + 3]);
                 long X0;
                 if (j != 15)
                     X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
@@ -193,7 +214,14 @@ namespace GOST
                 processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
                 n -= 4;
             }
-            textBoxProcessed.Text = processed;
+            string[] fnd = fileNameDeshifr.Split('-');
+            using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[2], FileMode.OpenOrCreate))
+            {
+                byte[] array = Encoding.Default.GetBytes(processed);
+                fstream.Write(array, 0, Convert.ToInt32(fnd[1]));
+                fstream.Close();
+            }
+            textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[2];
             processed = "";
         }
 
@@ -206,27 +234,33 @@ namespace GOST
         private void toolStripAttach_Click(object sender, EventArgs e)
         {
             OpenFileDialog op = new OpenFileDialog();
-            op.Filter = "Text file(*.txt)|*.txt|All files(*.*)|*.*";
+            op.Filter = "All files(*.*)|*.*";
             if (op.ShowDialog() == DialogResult.OK)
             {
-                try
+                using (FileStream fstream = File.OpenRead(op.FileName))
                 {
-                    Bitmap tempImage = new Bitmap(op.FileName);
-                    pictureBoxOriginal.Image = tempImage;
+                    sizeFile = "" + Convert.ToDouble(fstream.Length / 1024) + "Kб";
+                    fileNameDeshifr = op.FileName;
+                    byte[] array = new byte[fstream.Length];
+                    fstream.Read(array, 0, array.Length);
+                    textFromFile = Encoding.Default.GetString(array);
+                    fstream.Close();
+                }
+                
+                ext = Path.GetExtension(op.FileName);
+                if (ext == ".txt")
+                {
+                    textBoxOriginal.Text = "Выберете, что хотите сделать с файлом, и обработка начнется";
+                }
+                if (ext == ".jpg" || ext == ".png")
+                {
+                    pictureBoxOriginal.Image = Image.FromFile(op.FileName);
                     pictureBoxOriginal.Show();
                 }
-                catch
+                if (ext == ".mp4" || ext == ".mp3")
                 {
-                    try
-                    {
-                        StreamReader sr = new StreamReader(op.FileName);
-                        textBoxOriginal.Text = sr.ReadToEnd();
-                        sr.Close();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Данный тип файла не поддерживается");
-                    }
+                    axWindowsMediaPlayerOriginal.URL = op.FileName;
+                    axWindowsMediaPlayerOriginal.Show();
                 }
             }
         }

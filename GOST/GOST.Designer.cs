@@ -154,11 +154,11 @@
             // 
             this.labelProcessed.AutoSize = true;
             this.labelProcessed.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelProcessed.Location = new System.Drawing.Point(411, 37);
+            this.labelProcessed.Location = new System.Drawing.Point(427, 37);
             this.labelProcessed.Name = "labelProcessed";
-            this.labelProcessed.Size = new System.Drawing.Size(165, 19);
+            this.labelProcessed.Size = new System.Drawing.Size(174, 19);
             this.labelProcessed.TabIndex = 4;
-            this.labelProcessed.Text = "Обработанные данные";
+            this.labelProcessed.Text = "Информация о процессе";
             // 
             // buttonCarryover
             // 
