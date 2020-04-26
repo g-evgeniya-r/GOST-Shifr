@@ -156,9 +156,9 @@
             this.labelProcessed.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelProcessed.Location = new System.Drawing.Point(427, 37);
             this.labelProcessed.Name = "labelProcessed";
-            this.labelProcessed.Size = new System.Drawing.Size(174, 19);
+            this.labelProcessed.Size = new System.Drawing.Size(334, 19);
             this.labelProcessed.TabIndex = 4;
-            this.labelProcessed.Text = "Информация о процессе";
+            this.labelProcessed.Text = "Информация о процессе/Обработанные данные";
             // 
             // buttonCarryover
             // 
@@ -175,6 +175,7 @@
             this.buttonCarryover.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.buttonCarryover.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.buttonCarryover.UseVisualStyleBackColor = true;
+            this.buttonCarryover.Visible = false;
             this.buttonCarryover.Click += new System.EventHandler(this.buttonCarryover_Click);
             // 
             // pictureBoxOriginal
@@ -182,6 +183,7 @@
             this.pictureBoxOriginal.Location = new System.Drawing.Point(12, 59);
             this.pictureBoxOriginal.Name = "pictureBoxOriginal";
             this.pictureBoxOriginal.Size = new System.Drawing.Size(355, 379);
+            this.pictureBoxOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxOriginal.TabIndex = 6;
             this.pictureBoxOriginal.TabStop = false;
             this.pictureBoxOriginal.Visible = false;

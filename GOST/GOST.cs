@@ -55,10 +55,13 @@ namespace GOST
 
         private void toolStripShifr_Click(object sender, EventArgs e)
         {
-            StreamWriter sw = new StreamWriter("GOST-"+ sizeFile + "-" + ext + "-.txt");
-            textBoxProcessed.Text = "Идет обработка данных...";
-            if (textBoxOriginal.Text != "")
+            bool flag = false;
+            if (textBoxOriginal.Text != "" && textBoxOriginal.Text != "Выберете, что хотите сделать с файлом, и обработка начнется")
+            {
                 textFromFile = textBoxOriginal.Text;
+                flag = true;
+            }
+            textBoxProcessed.Text = "Идет обработка данных...";
             int j = -1;
             int n = textFromFile.Length;
             if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
@@ -92,10 +95,20 @@ namespace GOST
                 Processing(R1);
                 n -= 4;
             }
-            sw.Write(processed);
+            if (!flag)
+            {
+                StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt");
+                sw.Write(processed);
+                sw.Close();
+                textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
+            }
+            else
+            {
+                textBoxProcessed.Text = processed;
+                buttonCarryover.Show();
+            }
             processed = "";
-            sw.Close();
-            textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
+
         }
 
         static long Conversion(long R0, long X0)
@@ -155,16 +168,15 @@ namespace GOST
 
             textBoxOriginal.Text = null;
 
-
             pictureBoxOriginal.Image = null;
             pictureBoxOriginal.Hide();
-
-
 
             axWindowsMediaPlayerOriginal.URL = null;
             axWindowsMediaPlayerOriginal.Hide();
 
             textBoxProcessed.Text = null;
+
+            buttonCarryover.Hide();
 
             try
             {
@@ -178,6 +190,12 @@ namespace GOST
 
         private void toolStripDeshifr_Click(object sender, EventArgs e)
         {
+            bool flag = false;
+            if (textBoxOriginal.Text != "" && textBoxOriginal.Text != "Выберете, что хотите сделать с файлом, и обработка начнется")
+            {
+                textFromFile = textBoxOriginal.Text;
+                flag = true;
+            }
             int j = -1;
             int n = textFromFile.Length;
             textBoxProcessed.Text = "Идет обработка данных...";
@@ -213,14 +231,25 @@ namespace GOST
                 processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
                 n -= 4;
             }
-            string[] fnd = fileNameDeshifr.Split('-');
-            using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[2], FileMode.OpenOrCreate))
+            if (!flag)
             {
-                byte[] array = Encoding.Default.GetBytes(processed);
-                fstream.Write(array, 0, Convert.ToInt32(fnd[1]) * 1024);
-                fstream.Close();
+                string[] fnd = fileNameDeshifr.Split('-');
+                /*using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[2], FileMode.OpenOrCreate))
+                {
+                    byte[] array = Encoding.Default.GetBytes(processed);
+                    fstream.Write(array, 0, Convert.ToInt32(fnd[1]) * 1024);
+                    fstream.Close();
+                }*/
+               /* StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[2]);
+                sw.Write(processed);
+                sw.Close();*/
+                textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[2];
             }
-            textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[2];
+            else
+            {
+                textBoxProcessed.Text = processed;
+                buttonCarryover.Show();
+            }
             processed = "";
         }
 
