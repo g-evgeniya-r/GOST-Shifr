@@ -61,7 +61,6 @@ namespace GOST
                 textFromFile = textBoxOriginal.Text;
             int j = -1;
             int n = textFromFile.Length;
-            MessageBox.Show(""+n);
             if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
             for (int i = 0; i <= textFromFile.Length - 4; i += 4)
             {
@@ -94,11 +93,11 @@ namespace GOST
                 n -= 4;
             }
             sw.Write(processed);
-            MessageBox.Show("" + textBoxProcessed.Text.Length);
             processed = "";
             sw.Close();
             textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
         }
+
         static long Conversion(long R0, long X0)
         {
             long summ_mod32 = (R0 + X0) % Convert.ToInt64(Math.Pow(2, 32));
@@ -121,6 +120,7 @@ namespace GOST
                      line[6] * Convert.ToInt64(Math.Pow(2, 4))
                      + line[7]) << 11);
         }
+
         static long[] Xor(long[] L0Xor, long[] resultXor)
         {
             long[] R1 = new long[32];
@@ -133,6 +133,7 @@ namespace GOST
             }
             return R1;
         }
+
         static void Processing(long[] R1)
         {
             long kod = 0;
@@ -148,8 +149,6 @@ namespace GOST
             }
             processed += Convert.ToChar(kod);
         }
-
-        
 
         private void toolStripCutOut_Click(object sender, EventArgs e)
         {
@@ -218,7 +217,7 @@ namespace GOST
             using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[2], FileMode.OpenOrCreate))
             {
                 byte[] array = Encoding.Default.GetBytes(processed);
-                fstream.Write(array, 0, Convert.ToInt32(fnd[1]));
+                fstream.Write(array, 0, Convert.ToInt32(fnd[1]) * 1024);
                 fstream.Close();
             }
             textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[2];
