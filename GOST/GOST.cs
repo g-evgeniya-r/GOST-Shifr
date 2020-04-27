@@ -97,7 +97,7 @@ namespace GOST
             }
             if (!flag)
             {
-                StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt");
+                StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt", false, Encoding.UTF8);
                 sw.Write(processed);
                 sw.Close();
                 textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
@@ -234,12 +234,15 @@ namespace GOST
             if (!flag)
             {
                 string[] fnd = fileNameDeshifr.Split('-');
-                using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
+                /*using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
                 {
                     byte[] array = Encoding.Default.GetBytes(processed);
-                    fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length-3]) * 1024);
+                    fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length-3]));
                     fstream.Close();
-                }
+                }*/
+                StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2], false,  Encoding.UTF8);
+                sw.Write(processed);
+                sw.Close();
                 textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[fnd.Length - 2];
             }
             else
@@ -264,7 +267,7 @@ namespace GOST
             {
                 using (FileStream fstream = File.OpenRead(op.FileName))
                 {
-                    sizeFile = "" + Convert.ToDouble(fstream.Length / 1024);
+                    sizeFile = "" + fstream.Length;
                     fileNameDeshifr = op.FileName;
                     byte[] array = new byte[fstream.Length];
                     fstream.Read(array, 0, array.Length);
