@@ -46,8 +46,10 @@ namespace GOST
                                              { 5, 5, 9, 5, 11, 15, 2, 8 },
                                              { 3, 9, 11, 3, 2, 14, 12, 12 } };
         static string processed = "";
-        string textFromFile = "";
-        string ext = "", sizeFile = "", fileNameDeshifr = "";
+        string textFromFile = "", ext = "", sizeFile = "", fileNameDeshifr = "", demoR02 = "";
+        bool flagDemo = false, flagDemoShifr = false, flagDemoDeshifr = false;
+        int flagFurther = 0, schDemo = 0, schDemoKey = -1;
+        long demoResult, demoL0, demoR0, demoX0;
         public GOST()
         {
             InitializeComponent();
@@ -55,63 +57,91 @@ namespace GOST
 
         private void toolStripShifr_Click(object sender, EventArgs e)
         {
-            bool flag = false;
-            if (textBoxOriginal.Text != "" && textBoxOriginal.Text != "Выберете, что хотите сделать с файлом, и обработка начнется")
+            if (!flagDemo)
             {
-                textFromFile = textBoxOriginal.Text;
-                flag = true;
-            }
-            textBoxProcessed.Text = "Идет обработка данных...";
-            int j = -1;
-            int n = textFromFile.Length;
-            if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
-            for (int i = 0; i <= textFromFile.Length - 4; i += 4)
-            {
-                j = (j + 1) % 16;
-                long L0 = Convert.ToInt64(textFromFile[i]) *
-                          Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textFromFile[i + 1]);
-                long R0 = Convert.ToInt64(textFromFile[i + 2]) *
-                          Convert.ToInt64(Math.Pow(2, 16)) +
-                          Convert.ToInt64(textFromFile[i + 3]);
-                processed += (Convert.ToString(textFromFile[i + 2]) +
-                              Convert.ToString(textFromFile[i + 3]));
-                long X0;
-                if (j != 15)
-                    X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
-                else
-                    X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                long[] L0Xor = new long[32];
-                long[] resultXor = new long[32];
-                long result = Conversion(R0, X0);
-                for (int p = 31; p >= 0; p--)
+                bool flag = false;
+                if (textBoxOriginal.Text != "" && textBoxOriginal.Text != "Выберете, что хотите сделать с файлом, и обработка начнется")
                 {
-                    L0Xor[p] = L0 % 2;
-                    L0 /= 2;
-                    resultXor[p] = result % 2;
-                    result /= 2;
+                    textFromFile = textBoxOriginal.Text;
+                    flag = true;
                 }
-                long[] R1 = Xor(L0Xor, resultXor);
-                Processing(R1);
-                n -= 4;
-            }
-            if (!flag)
-            {
-                StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt", false, Encoding.UTF8);
-                sw.Write(processed);
-                sw.Close();
-                textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
+                textBoxProcessed.Text = "Идет обработка данных...";
+                int j = -1;
+                int n = textFromFile.Length;
+                if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
+                for (int i = 0; i <= textFromFile.Length - 4; i += 4)
+                {
+                    j = (j + 1) % 16;
+
+                    long L0 = Convert.ToInt64(textFromFile[i]) *
+                              Convert.ToInt64(Math.Pow(2, 16)) +
+                              Convert.ToInt64(textFromFile[i + 1]);
+                    long R0 = Convert.ToInt64(textFromFile[i + 2]) *
+                              Convert.ToInt64(Math.Pow(2, 16)) +
+                              Convert.ToInt64(textFromFile[i + 3]);
+                    processed += (Convert.ToString(textFromFile[i + 2]) +
+                                  Convert.ToString(textFromFile[i + 3]));
+                    long X0;
+                    if (j != 15)
+                        X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
+                    else
+                        X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
+
+                    long[] L0Xor = new long[32];
+                    long[] resultXor = new long[32];
+                    long result = Conversion(R0, X0);
+                    for (int p = 31; p >= 0; p--)
+                    {
+                        L0Xor[p] = L0 % 2;
+                        L0 /= 2;
+                        resultXor[p] = result % 2;
+                        result /= 2;
+                    }
+                    long[] R1 = Xor(L0Xor, resultXor);
+                    Processing(R1);
+                    n -= 4;
+                }
+                if (!flag)
+                {
+                    StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt", false, Encoding.UTF8);
+                    sw.Write(processed);
+                    sw.Close();
+                    textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
+                }
+                else
+                {
+                    if (!flagDemo)
+                    {
+                        labelProcessed.Text = "Обработанные данные";
+                        buttonCarryover.Show();
+                    }
+                    textBoxProcessed.Text = processed;
+                }
+                processed = "";
             }
             else
             {
-                textBoxProcessed.Text = processed;
-                buttonCarryover.Show();
+                textBoxProcessed.Text = "Нажмите далее и демострация начнется";
+                buttonFurther.Show();
+                flagDemoShifr = true;
             }
-            processed = "";
-
         }
-
-        static long Conversion(long R0, long X0)
+        static string Binary(long x)
+        {
+            long[] mas = new long[16];
+            string s = "";
+            for(int i = 15; i>=0; i--)
+            {
+                mas[i] = x % 2;
+                x /= 2;
+            }
+            for(int i = 0; i<16; i++)
+            {
+                s += mas[i];
+            }
+            return s;
+        }
+        public long Conversion(long R0, long X0)
         {
             long summ_mod32 = (R0 + X0) % Convert.ToInt64(Math.Pow(2, 32));
             long[] line = new long[8];
@@ -124,17 +154,53 @@ namespace GOST
             {
                 line[i] = substitution_block[line[i], i];
             }
-            return ((line[0] * Convert.ToInt64(Math.Pow(2, 28)) +
+            long line2 = line[0] * Convert.ToInt64(Math.Pow(2, 28)) +
                      line[1] * Convert.ToInt64(Math.Pow(2, 24)) +
                      line[2] * Convert.ToInt64(Math.Pow(2, 20)) +
                      line[3] * Convert.ToInt64(Math.Pow(2, 16)) +
                      line[4] * Convert.ToInt64(Math.Pow(2, 12)) +
                      line[5] * Convert.ToInt64(Math.Pow(2, 8)) +
                      line[6] * Convert.ToInt64(Math.Pow(2, 4))
-                     + line[7]) << 11);
+                     + line[7];
+            if (flagDemo)
+            {
+                labelDemoInfo1.Text = "Вычисление суммы R0 и X0 по mod2^32:";
+                labelDemoInfo2.Show();
+                labelDemoInfo3.Text = "Циклический сдвиг влево на 11 бит:";
+                labelDemoInfo3.Show();
+                labelR0R0.Hide();
+                labelL0R1.Hide();
+
+                textBoxL01.Hide();
+                textBoxL02.Hide();
+                textBoxL03.Hide();
+                textBoxL04.Hide();
+                textBoxR01.Hide();
+                textBoxR02.Hide();
+                textBoxR03.Hide();
+                textBoxR04.Hide();
+                textBoxX01.Text = "";
+                textBoxX02.Text = "";
+                textBoxX01.Hide();
+                textBoxX02.Hide();
+                textBoxX03.Hide();
+                textBoxX04.Hide();
+
+                textBoxR11.Show();
+                textBoxR12.Show();
+                textBoxR13.Show();
+
+                textBoxR11.Text = Binary(summ_mod32 / Convert.ToInt64(Math.Pow(2, 16))) + "" +
+                                  Binary(summ_mod32 % Convert.ToInt64(Math.Pow(2, 16)));
+                textBoxR12.Text = Binary(line2 / Convert.ToInt64(Math.Pow(2, 16))) + "" +
+                                  Binary(line2 % Convert.ToInt64(Math.Pow(2, 16)));
+                textBoxR13.Text = Binary((line2 << 11) / Convert.ToInt64(Math.Pow(2, 16))) + "" +
+                                  Binary((line2 << 11) % Convert.ToInt64(Math.Pow(2, 16)));
+            }
+            return line2 << 11;
         }
 
-        static long[] Xor(long[] L0Xor, long[] resultXor)
+        public long[] Xor(long[] L0Xor, long[] resultXor)
         {
             long[] R1 = new long[32];
             for (int i = 0; i < 32; i++)
@@ -144,10 +210,35 @@ namespace GOST
                 else
                     R1[i] = 1;
             }
+            if(flagDemo)
+            {
+                labelDemoInfo1.Text = "Складываем данный результат с L0 по mod2";
+                labelL0R1.Text = "R1";
+                labelL0R1.Show();
+                string s = "";
+                for(int i=0; i<16; i++)
+                {
+                    s += R1[i];
+                }
+                s += " ";
+                for (int i = 16; i < 32; i++)
+                {
+                    s += R1[i];
+                }
+                textBoxR12.Text = s;
+                labelDemoInfo2.Hide();
+                textBoxR12.Hide();
+                labelDemoInfo3.Text = "Зашифрованные данные";
+                labelR0.Show();
+                labelR1.Show();
+                textBoxR13.Hide();
+                textBoxX01.Show();
+                textBoxX02.Show();
+            }
             return R1;
         }
 
-        static void Processing(long[] R1)
+        public void Processing(long[] R1)
         {
             long kod = 0;
             for (int j = 0; j < 16; j++)
@@ -155,18 +246,49 @@ namespace GOST
                 kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15 - j)));
             }
             processed += Convert.ToChar(kod);
+            textBoxX02.Text += Convert.ToChar(kod);
             kod = 0;
             for (int j = 16; j < 32; j++)
             {
                 kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15 - (j - 16))));
             }
             processed += Convert.ToChar(kod);
+            textBoxX02.Text += Convert.ToChar(kod);
         }
 
         private void toolStripCutOut_Click(object sender, EventArgs e)
         {
+            labelProcessed.Text = "Информация о процессе";
+            if (flagDemo)
+            {
+                flagDemo = false;
+                labelDemoInfo1.Hide();
+                textBoxR11.Hide();
+                labelDemoInfo2.Hide();
+                textBoxR12.Hide();
+                labelDemoInfo3.Hide();
+                textBoxR13.Hide();
+                labelR0.Hide();
+                labelR1.Hide();
+                labelR0R0.Hide();
+                labelL0R1.Hide();
+                textBoxProcessed.Show();
+                textBoxL01.Hide();
+                textBoxL02.Hide();
+                textBoxL03.Hide();
+                textBoxL04.Hide();
+                textBoxR01.Hide();
+                textBoxR02.Hide();
+                textBoxR03.Hide();
+                textBoxR04.Hide();
+                textBoxX01.Hide();
+                textBoxX02.Hide();
+                textBoxX03.Hide();
+                textBoxX04.Hide();
+                buttonFurther.Hide();
+            }
 
-            textBoxOriginal.Text = null;
+            textBoxOriginal.Text = "";
 
             pictureBoxOriginal.Image = null;
             pictureBoxOriginal.Hide();
@@ -234,12 +356,6 @@ namespace GOST
             if (!flag)
             {
                 string[] fnd = fileNameDeshifr.Split('-');
-                /*using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
-                {
-                    byte[] array = Encoding.Default.GetBytes(processed);
-                    fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length-3]));
-                    fstream.Close();
-                }*/
                 StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2], false,  Encoding.UTF8);
                 sw.Write(processed);
                 sw.Close();
@@ -251,6 +367,172 @@ namespace GOST
                 buttonCarryover.Show();
             }
             processed = "";
+        }
+        
+        private void buttonFurther_Click(object sender, EventArgs e)
+        {
+            if (flagDemoShifr)
+            {
+                int n;
+                
+                if (flagFurther == 0)
+                {
+                    n = textBoxOriginal.Text.Length;
+                    if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textBoxOriginal.Text += " ";
+                    schDemoKey = (schDemoKey + 1) % 16;
+
+                    demoL0 = Convert.ToInt64(textBoxOriginal.Text[schDemo]) *
+                              Convert.ToInt64(Math.Pow(2, 16)) +
+                              Convert.ToInt64(textBoxOriginal.Text[schDemo + 1]);
+                    demoR0 = Convert.ToInt64(textBoxOriginal.Text[schDemo + 2]) *
+                              Convert.ToInt64(Math.Pow(2, 16)) +
+                              Convert.ToInt64(textBoxOriginal.Text[schDemo + 3]);
+                    processed += (Convert.ToString(textBoxOriginal.Text[schDemo + 2]) +
+                                  Convert.ToString(textBoxOriginal.Text[schDemo + 3]));
+                    demoR02 = Convert.ToString(textBoxOriginal.Text[schDemo + 2]) +
+                                  Convert.ToString(textBoxOriginal.Text[schDemo + 3]);
+                    
+                    if (schDemoKey != 15)
+                        demoX0 = key[schDemoKey, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[schDemoKey, 1];
+                    else
+                        demoX0 = key[schDemoKey, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[schDemoKey, 0];
+                    buttonFurther.Show();
+                    textBoxProcessed.Hide();
+                    labelR0.Hide();
+                    labelR1.Hide();
+                    textBoxR11.Hide();
+                    labelDemoInfo1.Text = "Данные для шифрования:";
+                    labelDemoInfo1.Show();
+                    labelL0R1.Text = "L0";
+                    labelL0R1.Show();
+                    labelR0R0.Show();
+                    textBoxL01.Show();
+                    textBoxL02.Show();
+                    textBoxL03.Show();
+                    textBoxL04.Show();
+                    textBoxR01.Show();
+                    textBoxR02.Show();
+                    textBoxR03.Show();
+                    textBoxR04.Show();
+                    textBoxX01.Show();
+                    textBoxX02.Show();
+                    textBoxX03.Show();
+                    textBoxX04.Show();
+
+                    labelDemoInfo3.Text = "Подключ:";
+                    labelDemoInfo3.Show();
+
+                    textBoxL01.Text = Convert.ToString(textBoxOriginal.Text[schDemo]);
+                    textBoxL02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 1]);
+                    textBoxL03.Text = Binary(demoL0 / Convert.ToInt64(Math.Pow(2, 16)));
+                    textBoxL04.Text = Binary(demoL0 % Convert.ToInt64(Math.Pow(2, 16)));
+
+                    textBoxR01.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 2]);
+                    textBoxR02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 3]);
+                    textBoxR03.Text = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16)));
+                    textBoxR04.Text = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16)));
+
+                    textBoxX01.Text = Convert.ToString(Convert.ToChar(demoX0 / Convert.ToInt64(Math.Pow(2, 16))));
+                    textBoxX02.Text = Convert.ToString(Convert.ToChar(demoX0 % Convert.ToInt64(Math.Pow(2, 16))));
+                    textBoxX03.Text = Binary(demoX0 / Convert.ToInt64(Math.Pow(2, 16)));
+                    textBoxX04.Text = Binary(demoX0 % Convert.ToInt64(Math.Pow(2, 16)));
+
+                    flagFurther = 1;
+                }
+                else
+                {
+                    if (flagFurther == 1)
+                    {
+                        demoResult = Conversion(demoR0, demoX0);
+                        flagFurther = 2;
+                    }
+                    else
+                    {
+                        if (flagFurther == 2)
+                        {
+                            long[] L0Xor = new long[32];
+                            long[] resultXor = new long[32];
+                            for (int p = 31; p >= 0; p--)
+                            {
+                                L0Xor[p] = demoL0 % 2;
+                                demoL0 /= 2;
+                                resultXor[p] = demoResult % 2;
+                                demoResult /= 2;
+                            }
+                            long[] R1 = Xor(L0Xor, resultXor);
+
+                            long[] R00 = new long[32];
+                            string s = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16)));
+                            for (int i = 0; i<16; i++)
+                            {
+                                R00[i] = Convert.ToInt64(s[i]);
+                            }
+                            s = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16)));
+                            for (int i = 0; i < 16; i++)
+                            {
+                                R00[i+16] = Convert.ToInt64(s[i]);
+                            }
+                            textBoxX01.Text = demoR02;
+                            Processing(R1);
+                            if (schDemo != textBoxOriginal.Text.Length - 4)
+                            {
+                                schDemo += 4;
+                                flagFurther = 0;
+                            }
+                            else
+                            {
+                                buttonFurther.Text = "Конец";
+                                flagFurther = 3;
+                            }
+                        }
+                        else
+                        {
+                            flagDemo = false;
+                            labelDemoInfo1.Hide();
+                            textBoxR11.Hide();
+                            labelDemoInfo2.Hide();
+                            textBoxR12.Hide();
+                            labelDemoInfo3.Hide();
+                            textBoxR13.Hide();
+                            labelR0.Hide();
+                            labelR1.Hide();
+                            labelR0R0.Hide();
+                            labelL0R1.Hide();
+                            textBoxProcessed.Text = "";
+                            textBoxProcessed.Show();
+                            textBoxL01.Hide();
+                            textBoxL02.Hide();
+                            textBoxL03.Hide();
+                            textBoxL04.Hide();
+                            textBoxR01.Hide();
+                            textBoxR02.Hide();
+                            textBoxR03.Hide();
+                            textBoxR04.Hide();
+                            textBoxX01.Hide();
+                            textBoxX02.Hide();
+                            textBoxX03.Hide();
+                            textBoxX04.Hide();
+                            textBoxOriginal.Text = "";
+                            labelProcessed.Text = "Информация о процессе";
+                            buttonFurther.Hide();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void toolStripDemo_Click(object sender, EventArgs e)
+        {
+            flagDemo = true;
+            if (textBoxOriginal.Text != "")
+            {
+                labelProcessed.Text = "Демонстрационный режим";
+                textBoxProcessed.Text = "Выберите режим обработки данных (шифрование/дешифрование)";
+            }
+            else
+            {
+                MessageBox.Show("Введите исходные данные и затем повторите попытку");
+            }
         }
 
         private void buttonCarryover_Click(object sender, EventArgs e)
@@ -280,16 +562,21 @@ namespace GOST
                 {
                     textBoxOriginal.Text = "Выберете, что хотите сделать с файлом, и обработка начнется";
                 }
+                else
                 if (ext == ".jpg" || ext == ".png")
                 {
                     pictureBoxOriginal.Image = Image.FromFile(op.FileName);
                     pictureBoxOriginal.Show();
                 }
+                else
                 if (ext == ".mp4" || ext == ".mp3")
                 {
                     axWindowsMediaPlayerOriginal.URL = op.FileName;
                     axWindowsMediaPlayerOriginal.Show();
                 }
+                else
+                    MessageBox.Show("Извините, но данный тип файла не поддерживается. " +
+                        "Если вы считаете, что тип файла корректен, сообщите нам, и мы исправим ошибку.");
             }
         }
     }
