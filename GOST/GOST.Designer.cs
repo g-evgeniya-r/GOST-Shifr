@@ -69,9 +69,23 @@
             this.labelR0 = new System.Windows.Forms.Label();
             this.labelR1 = new System.Windows.Forms.Label();
             this.buttonFurther = new System.Windows.Forms.Button();
+            this.pictureBoxDemoShifr0 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxDemoShifr1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxDemoShifr2 = new System.Windows.Forms.PictureBox();
+            this.textBoxKey = new System.Windows.Forms.TextBox();
+            this.labelKey = new System.Windows.Forms.Label();
+            this.pictureBoxDemoDeshifr0 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxDemoDeshifr1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxDemoDeshifr2 = new System.Windows.Forms.PictureBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayerOriginal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr2)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -177,7 +191,7 @@
             // textBoxProcessed
             // 
             this.textBoxProcessed.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxProcessed.Location = new System.Drawing.Point(429, 62);
+            this.textBoxProcessed.Location = new System.Drawing.Point(429, 58);
             this.textBoxProcessed.Multiline = true;
             this.textBoxProcessed.Name = "textBoxProcessed";
             this.textBoxProcessed.ReadOnly = true;
@@ -258,6 +272,7 @@
             this.textBoxL01.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxL01.Location = new System.Drawing.Point(464, 89);
             this.textBoxL01.Name = "textBoxL01";
+            this.textBoxL01.ReadOnly = true;
             this.textBoxL01.Size = new System.Drawing.Size(135, 26);
             this.textBoxL01.TabIndex = 9;
             this.textBoxL01.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -268,6 +283,7 @@
             this.textBoxL03.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxL03.Location = new System.Drawing.Point(464, 121);
             this.textBoxL03.Name = "textBoxL03";
+            this.textBoxL03.ReadOnly = true;
             this.textBoxL03.Size = new System.Drawing.Size(135, 26);
             this.textBoxL03.TabIndex = 11;
             this.textBoxL03.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -322,6 +338,7 @@
             this.textBoxL04.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxL04.Location = new System.Drawing.Point(605, 121);
             this.textBoxL04.Name = "textBoxL04";
+            this.textBoxL04.ReadOnly = true;
             this.textBoxL04.Size = new System.Drawing.Size(135, 26);
             this.textBoxL04.TabIndex = 27;
             this.textBoxL04.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -332,6 +349,7 @@
             this.textBoxL02.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxL02.Location = new System.Drawing.Point(605, 89);
             this.textBoxL02.Name = "textBoxL02";
+            this.textBoxL02.ReadOnly = true;
             this.textBoxL02.Size = new System.Drawing.Size(135, 26);
             this.textBoxL02.TabIndex = 28;
             this.textBoxL02.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -342,6 +360,7 @@
             this.textBoxR01.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR01.Location = new System.Drawing.Point(464, 170);
             this.textBoxR01.Name = "textBoxR01";
+            this.textBoxR01.ReadOnly = true;
             this.textBoxR01.Size = new System.Drawing.Size(135, 26);
             this.textBoxR01.TabIndex = 29;
             this.textBoxR01.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -352,6 +371,7 @@
             this.textBoxR02.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR02.Location = new System.Drawing.Point(605, 170);
             this.textBoxR02.Name = "textBoxR02";
+            this.textBoxR02.ReadOnly = true;
             this.textBoxR02.Size = new System.Drawing.Size(135, 26);
             this.textBoxR02.TabIndex = 30;
             this.textBoxR02.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -362,6 +382,7 @@
             this.textBoxR03.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR03.Location = new System.Drawing.Point(464, 202);
             this.textBoxR03.Name = "textBoxR03";
+            this.textBoxR03.ReadOnly = true;
             this.textBoxR03.Size = new System.Drawing.Size(135, 26);
             this.textBoxR03.TabIndex = 31;
             this.textBoxR03.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -372,6 +393,7 @@
             this.textBoxR04.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR04.Location = new System.Drawing.Point(605, 202);
             this.textBoxR04.Name = "textBoxR04";
+            this.textBoxR04.ReadOnly = true;
             this.textBoxR04.Size = new System.Drawing.Size(135, 26);
             this.textBoxR04.TabIndex = 32;
             this.textBoxR04.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -382,6 +404,7 @@
             this.textBoxX01.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxX01.Location = new System.Drawing.Point(464, 277);
             this.textBoxX01.Name = "textBoxX01";
+            this.textBoxX01.ReadOnly = true;
             this.textBoxX01.Size = new System.Drawing.Size(135, 26);
             this.textBoxX01.TabIndex = 33;
             this.textBoxX01.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -392,6 +415,7 @@
             this.textBoxX02.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxX02.Location = new System.Drawing.Point(605, 277);
             this.textBoxX02.Name = "textBoxX02";
+            this.textBoxX02.ReadOnly = true;
             this.textBoxX02.Size = new System.Drawing.Size(135, 26);
             this.textBoxX02.TabIndex = 34;
             this.textBoxX02.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -402,6 +426,7 @@
             this.textBoxX03.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxX03.Location = new System.Drawing.Point(464, 309);
             this.textBoxX03.Name = "textBoxX03";
+            this.textBoxX03.ReadOnly = true;
             this.textBoxX03.Size = new System.Drawing.Size(135, 26);
             this.textBoxX03.TabIndex = 35;
             this.textBoxX03.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -412,6 +437,7 @@
             this.textBoxX04.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxX04.Location = new System.Drawing.Point(605, 309);
             this.textBoxX04.Name = "textBoxX04";
+            this.textBoxX04.ReadOnly = true;
             this.textBoxX04.Size = new System.Drawing.Size(135, 26);
             this.textBoxX04.TabIndex = 36;
             this.textBoxX04.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -422,6 +448,7 @@
             this.textBoxR13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR13.Location = new System.Drawing.Point(463, 277);
             this.textBoxR13.Name = "textBoxR13";
+            this.textBoxR13.ReadOnly = true;
             this.textBoxR13.Size = new System.Drawing.Size(276, 26);
             this.textBoxR13.TabIndex = 38;
             this.textBoxR13.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -432,6 +459,7 @@
             this.textBoxR11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR11.Location = new System.Drawing.Point(463, 89);
             this.textBoxR11.Name = "textBoxR11";
+            this.textBoxR11.ReadOnly = true;
             this.textBoxR11.Size = new System.Drawing.Size(276, 26);
             this.textBoxR11.TabIndex = 39;
             this.textBoxR11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -442,6 +470,7 @@
             this.textBoxR12.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxR12.Location = new System.Drawing.Point(463, 170);
             this.textBoxR12.Name = "textBoxR12";
+            this.textBoxR12.ReadOnly = true;
             this.textBoxR12.Size = new System.Drawing.Size(276, 26);
             this.textBoxR12.TabIndex = 40;
             this.textBoxR12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -462,7 +491,7 @@
             // 
             this.labelR0.AutoSize = true;
             this.labelR0.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelR0.Location = new System.Drawing.Point(514, 312);
+            this.labelR0.Location = new System.Drawing.Point(516, 306);
             this.labelR0.Name = "labelR0";
             this.labelR0.Size = new System.Drawing.Size(27, 19);
             this.labelR0.TabIndex = 42;
@@ -473,7 +502,7 @@
             // 
             this.labelR1.AutoSize = true;
             this.labelR1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelR1.Location = new System.Drawing.Point(657, 312);
+            this.labelR1.Location = new System.Drawing.Point(657, 306);
             this.labelR1.Name = "labelR1";
             this.labelR1.Size = new System.Drawing.Size(27, 19);
             this.labelR1.TabIndex = 43;
@@ -492,11 +521,108 @@
             this.buttonFurther.Visible = false;
             this.buttonFurther.Click += new System.EventHandler(this.buttonFurther_Click);
             // 
+            // pictureBoxDemoShifr0
+            // 
+            this.pictureBoxDemoShifr0.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxDemoShifr0.Image")));
+            this.pictureBoxDemoShifr0.Location = new System.Drawing.Point(12, 37);
+            this.pictureBoxDemoShifr0.Name = "pictureBoxDemoShifr0";
+            this.pictureBoxDemoShifr0.Size = new System.Drawing.Size(355, 336);
+            this.pictureBoxDemoShifr0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxDemoShifr0.TabIndex = 45;
+            this.pictureBoxDemoShifr0.TabStop = false;
+            this.pictureBoxDemoShifr0.Visible = false;
+            // 
+            // pictureBoxDemoShifr1
+            // 
+            this.pictureBoxDemoShifr1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxDemoShifr1.Image")));
+            this.pictureBoxDemoShifr1.Location = new System.Drawing.Point(12, 37);
+            this.pictureBoxDemoShifr1.Name = "pictureBoxDemoShifr1";
+            this.pictureBoxDemoShifr1.Size = new System.Drawing.Size(355, 336);
+            this.pictureBoxDemoShifr1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxDemoShifr1.TabIndex = 46;
+            this.pictureBoxDemoShifr1.TabStop = false;
+            this.pictureBoxDemoShifr1.Visible = false;
+            // 
+            // pictureBoxDemoShifr2
+            // 
+            this.pictureBoxDemoShifr2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxDemoShifr2.Image")));
+            this.pictureBoxDemoShifr2.Location = new System.Drawing.Point(12, 37);
+            this.pictureBoxDemoShifr2.Name = "pictureBoxDemoShifr2";
+            this.pictureBoxDemoShifr2.Size = new System.Drawing.Size(355, 336);
+            this.pictureBoxDemoShifr2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxDemoShifr2.TabIndex = 47;
+            this.pictureBoxDemoShifr2.TabStop = false;
+            this.pictureBoxDemoShifr2.Visible = false;
+            // 
+            // textBoxKey
+            // 
+            this.textBoxKey.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxKey.Location = new System.Drawing.Point(12, 399);
+            this.textBoxKey.Multiline = true;
+            this.textBoxKey.Name = "textBoxKey";
+            this.textBoxKey.ReadOnly = true;
+            this.textBoxKey.Size = new System.Drawing.Size(355, 39);
+            this.textBoxKey.TabIndex = 48;
+            this.textBoxKey.Text = "ДЕДЛАЙН ближе спасайся кто может";
+            this.textBoxKey.Visible = false;
+            // 
+            // labelKey
+            // 
+            this.labelKey.AutoSize = true;
+            this.labelKey.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelKey.Location = new System.Drawing.Point(12, 376);
+            this.labelKey.Name = "labelKey";
+            this.labelKey.Size = new System.Drawing.Size(55, 19);
+            this.labelKey.TabIndex = 49;
+            this.labelKey.Text = "Ключ:";
+            this.labelKey.Visible = false;
+            // 
+            // pictureBoxDemoDeshifr0
+            // 
+            this.pictureBoxDemoDeshifr0.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxDemoDeshifr0.Image")));
+            this.pictureBoxDemoDeshifr0.Location = new System.Drawing.Point(12, 37);
+            this.pictureBoxDemoDeshifr0.Name = "pictureBoxDemoDeshifr0";
+            this.pictureBoxDemoDeshifr0.Size = new System.Drawing.Size(355, 336);
+            this.pictureBoxDemoDeshifr0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxDemoDeshifr0.TabIndex = 50;
+            this.pictureBoxDemoDeshifr0.TabStop = false;
+            this.pictureBoxDemoDeshifr0.Visible = false;
+            // 
+            // pictureBoxDemoDeshifr1
+            // 
+            this.pictureBoxDemoDeshifr1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxDemoDeshifr1.Image")));
+            this.pictureBoxDemoDeshifr1.Location = new System.Drawing.Point(12, 37);
+            this.pictureBoxDemoDeshifr1.Name = "pictureBoxDemoDeshifr1";
+            this.pictureBoxDemoDeshifr1.Size = new System.Drawing.Size(355, 336);
+            this.pictureBoxDemoDeshifr1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxDemoDeshifr1.TabIndex = 51;
+            this.pictureBoxDemoDeshifr1.TabStop = false;
+            this.pictureBoxDemoDeshifr1.Visible = false;
+            // 
+            // pictureBoxDemoDeshifr2
+            // 
+            this.pictureBoxDemoDeshifr2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxDemoDeshifr2.Image")));
+            this.pictureBoxDemoDeshifr2.Location = new System.Drawing.Point(12, 37);
+            this.pictureBoxDemoDeshifr2.Name = "pictureBoxDemoDeshifr2";
+            this.pictureBoxDemoDeshifr2.Size = new System.Drawing.Size(355, 336);
+            this.pictureBoxDemoDeshifr2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxDemoDeshifr2.TabIndex = 52;
+            this.pictureBoxDemoDeshifr2.TabStop = false;
+            this.pictureBoxDemoDeshifr2.Visible = false;
+            // 
             // GOST
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 450);
+            this.Controls.Add(this.pictureBoxDemoDeshifr2);
+            this.Controls.Add(this.pictureBoxDemoDeshifr1);
+            this.Controls.Add(this.pictureBoxDemoDeshifr0);
+            this.Controls.Add(this.labelKey);
+            this.Controls.Add(this.textBoxKey);
+            this.Controls.Add(this.pictureBoxDemoShifr2);
+            this.Controls.Add(this.pictureBoxDemoShifr1);
+            this.Controls.Add(this.pictureBoxDemoShifr0);
             this.Controls.Add(this.buttonFurther);
             this.Controls.Add(this.labelR1);
             this.Controls.Add(this.labelR0);
@@ -535,6 +661,12 @@
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayerOriginal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -582,6 +714,14 @@
         private System.Windows.Forms.Label labelR0;
         private System.Windows.Forms.Label labelR1;
         private System.Windows.Forms.Button buttonFurther;
+        private System.Windows.Forms.PictureBox pictureBoxDemoShifr0;
+        private System.Windows.Forms.PictureBox pictureBoxDemoShifr1;
+        private System.Windows.Forms.PictureBox pictureBoxDemoShifr2;
+        private System.Windows.Forms.TextBox textBoxKey;
+        private System.Windows.Forms.Label labelKey;
+        private System.Windows.Forms.PictureBox pictureBoxDemoDeshifr0;
+        private System.Windows.Forms.PictureBox pictureBoxDemoDeshifr1;
+        private System.Windows.Forms.PictureBox pictureBoxDemoDeshifr2;
     }
 }
 
