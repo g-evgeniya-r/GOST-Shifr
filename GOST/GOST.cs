@@ -333,7 +333,7 @@ namespace GOST
                 buttonFurther.Hide();
             }
 
-            textBoxOriginal.Text = "";
+            
 
             pictureBoxOriginal.Image = null;
             pictureBoxOriginal.Hide();
@@ -341,18 +341,15 @@ namespace GOST
             axWindowsMediaPlayerOriginal.URL = null;
             axWindowsMediaPlayerOriginal.Hide();
 
-            textBoxProcessed.Text = null;
-
             buttonCarryover.Hide();
 
-            try
-            {
-                Clipboard.SetText(textBoxProcessed.Text);
-            }
-            catch
-            {
+            if(textBoxProcessed.Text != "" || textBoxOriginal.Text != "")
+                Clipboard.SetDataObject(textBoxProcessed.Text);
+            else
                 MessageBox.Show("Поля очищены");
-            } 
+
+            textBoxOriginal.Text = "";
+            textBoxProcessed.Text = "";
         } 
 
         private void toolStripDeshifr_Click(object sender, EventArgs e)
