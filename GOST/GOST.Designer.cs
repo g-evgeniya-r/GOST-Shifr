@@ -123,7 +123,7 @@
             this.toolStripDeshifr.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDeshifr.Name = "toolStripDeshifr";
             this.toolStripDeshifr.Size = new System.Drawing.Size(24, 24);
-            this.toolStripDeshifr.Text = "Расшифровать";
+            this.toolStripDeshifr.Text = "Дешифровать";
             this.toolStripDeshifr.Click += new System.EventHandler(this.toolStripDeshifr_Click);
             // 
             // toolStripAttach
@@ -156,7 +156,7 @@
             this.toolStripInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripInfo.Name = "toolStripInfo";
             this.toolStripInfo.Size = new System.Drawing.Size(33, 24);
-            this.toolStripInfo.Text = "О программе";
+            this.toolStripInfo.Text = "Информация";
             // 
             // ToolStripMenuItemInfoAboutTheProgramm
             // 
@@ -663,6 +663,7 @@
             this.Controls.Add(this.textBoxProcessed);
             this.Controls.Add(this.textBoxOriginal);
             this.Controls.Add(this.toolStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GOST";
             this.Text = "Шифрование ГОСТ";
             this.toolStrip1.ResumeLayout(false);
