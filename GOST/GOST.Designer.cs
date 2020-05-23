@@ -34,8 +34,9 @@
             this.toolStripDeshifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripAttach = new System.Windows.Forms.ToolStripButton();
             this.toolStripCutOut = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSave = new System.Windows.Forms.ToolStripButton();
-            this.toolStripInfo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripInfo = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ToolStripMenuItemInfoAboutTheProgramm = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemInfoHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDemo = new System.Windows.Forms.ToolStripButton();
             this.textBoxOriginal = new System.Windows.Forms.TextBox();
@@ -96,7 +97,6 @@
             this.toolStripDeshifr,
             this.toolStripAttach,
             this.toolStripCutOut,
-            this.toolStripSave,
             this.toolStripInfo,
             this.toolStripSeparator1,
             this.toolStripDemo});
@@ -146,23 +146,31 @@
             this.toolStripCutOut.Text = "Очистить поля";
             this.toolStripCutOut.Click += new System.EventHandler(this.toolStripCutOut_Click);
             // 
-            // toolStripSave
-            // 
-            this.toolStripSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSave.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSave.Image")));
-            this.toolStripSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSave.Name = "toolStripSave";
-            this.toolStripSave.Size = new System.Drawing.Size(24, 24);
-            this.toolStripSave.Text = "Сохранить";
-            // 
             // toolStripInfo
             // 
             this.toolStripInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripInfo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemInfoAboutTheProgramm,
+            this.ToolStripMenuItemInfoHelp});
             this.toolStripInfo.Image = ((System.Drawing.Image)(resources.GetObject("toolStripInfo.Image")));
             this.toolStripInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripInfo.Name = "toolStripInfo";
-            this.toolStripInfo.Size = new System.Drawing.Size(24, 24);
+            this.toolStripInfo.Size = new System.Drawing.Size(33, 24);
             this.toolStripInfo.Text = "О программе";
+            // 
+            // ToolStripMenuItemInfoAboutTheProgramm
+            // 
+            this.ToolStripMenuItemInfoAboutTheProgramm.Name = "ToolStripMenuItemInfoAboutTheProgramm";
+            this.ToolStripMenuItemInfoAboutTheProgramm.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemInfoAboutTheProgramm.Text = "О программе";
+            this.ToolStripMenuItemInfoAboutTheProgramm.Click += new System.EventHandler(this.ToolStripMenuItemInfoAboutTheProgramm_Click);
+            // 
+            // ToolStripMenuItemInfoHelp
+            // 
+            this.ToolStripMenuItemInfoHelp.Name = "ToolStripMenuItemInfoHelp";
+            this.ToolStripMenuItemInfoHelp.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemInfoHelp.Text = "Справка";
+            this.ToolStripMenuItemInfoHelp.Click += new System.EventHandler(this.ToolStripMenuItemInfoHelp_Click);
             // 
             // toolStripSeparator1
             // 
@@ -679,8 +687,6 @@
         private System.Windows.Forms.ToolStripButton toolStripDeshifr;
         private System.Windows.Forms.ToolStripButton toolStripAttach;
         private System.Windows.Forms.ToolStripButton toolStripCutOut;
-        private System.Windows.Forms.ToolStripButton toolStripSave;
-        private System.Windows.Forms.ToolStripButton toolStripInfo;
         private System.Windows.Forms.TextBox textBoxOriginal;
         private System.Windows.Forms.TextBox textBoxProcessed;
         private System.Windows.Forms.Label labelOriginal;
@@ -722,6 +728,9 @@
         private System.Windows.Forms.PictureBox pictureBoxDemoDeshifr0;
         private System.Windows.Forms.PictureBox pictureBoxDemoDeshifr1;
         private System.Windows.Forms.PictureBox pictureBoxDemoDeshifr2;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripInfo;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemInfoAboutTheProgramm;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemInfoHelp;
     }
 }
 

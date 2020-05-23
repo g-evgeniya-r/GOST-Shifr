@@ -51,6 +51,20 @@ namespace GOST
         int flagFurther = 0, schDemo = 0, schDemoKey = -1;
         long demoResult, demoL0, demoR0, demoX0, demoDR0, demoDR1;
 
+        private void ToolStripMenuItemInfoHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Для того, чтобы зашифровать/дешифровать небольшой текст, введите его в поле " + '"' + "Исходные данные" + '"'
+                +  ", если же вам нужно зашифровать/дешифровать текст большого объема, картинку, видео или аудио, то нажмите на кнопку со знаком скрепки для того, чтобы прикрепить нужный файл " + 
+                "и нажмите кнопку со знаком замка для шифрования или со знаком ключа для дешифрования." + '\n' + '\n' +
+                "Для демонстрационного режима введите текст в поле " + '"' + "Исходные данные" + '"' + ", нажмите кнопку со знаком глаза и лупы, далее кнопку со знаком замка (для шифрования) или ключа(для дешифрования)." + '\n' + '\n' +
+                "Чтобы начать сначала нажмите кнопку со знаком путого листа. Если вы вводили текст от руки, то при нажатии на эту кнопку обработанные данные скопируются в буфер обмена.");
+        }
+
+        private void ToolStripMenuItemInfoAboutTheProgramm_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Приложение: Стандарт шифрования ГОСТ" + '\n' + '\n' + "Версия: 0.3");
+        }
+
         public GOST()
         {
             InitializeComponent();
@@ -61,7 +75,7 @@ namespace GOST
             if (!flagDemo)
             {
                 bool flag = false;
-                if (textBoxOriginal.Text != "" && textBoxOriginal.Text != "Выберете, что хотите сделать с файлом, и обработка начнется")
+                if (textBoxOriginal.Text != "")
                 {
                     textFromFile = textBoxOriginal.Text;
                     flag = true;
@@ -104,9 +118,15 @@ namespace GOST
                 }
                 if (!flag)
                 {
-                    StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt", false, Encoding.UTF8);
-                    sw.Write(processed);
-                    sw.Close();
+                    // StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt", false, Encoding.UTF8);
+                    //StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt");
+                    //sw.Write(processed);
+                    //sw.Close();
+                    using (FileStream fstream = new FileStream("GOST-" + sizeFile + "-" + ext + "-.txt", FileMode.OpenOrCreate))
+                    {
+                        byte[] array = Encoding.Default.GetBytes(processed);
+                        fstream.Write(array, 0, array.Length);
+                    }
                     textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
                 }
                 else
@@ -333,8 +353,6 @@ namespace GOST
                 buttonFurther.Hide();
             }
 
-            
-
             pictureBoxOriginal.Image = null;
             pictureBoxOriginal.Hide();
 
@@ -343,7 +361,7 @@ namespace GOST
 
             buttonCarryover.Hide();
 
-            if(textBoxProcessed.Text != "" || textBoxOriginal.Text != "")
+            if(textBoxProcessed.Text != "" && textBoxOriginal.Text != "")
                 Clipboard.SetDataObject(textBoxProcessed.Text);
             else
                 MessageBox.Show("Поля очищены");
@@ -400,9 +418,15 @@ namespace GOST
                 if (!flag)
                 {
                     string[] fnd = fileNameDeshifr.Split('-');
-                    StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2], false, Encoding.UTF8);
-                    sw.Write(processed);
-                    sw.Close();
+                    // StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2], false, Encoding.UTF8);
+                    //StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2]);
+                    using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
+                    {
+                        byte[] array = Encoding.Default.GetBytes(processed);
+                        fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length - 3]));
+                    }
+                    //sw.Write(processed);
+                    //sw.Close();
                     textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[fnd.Length - 2];
                 }
                 else
@@ -808,7 +832,7 @@ namespace GOST
                 ext = Path.GetExtension(op.FileName);
                 if (ext == ".txt")
                 {
-                    textBoxOriginal.Text = "Выберете, что хотите сделать с файлом, и обработка начнется";
+                    textBoxProcessed.Text = "Выберете, что хотите сделать с файлом, и обработка начнется";
                 }
                 else
                 if (ext == ".jpg" || ext == ".png")
