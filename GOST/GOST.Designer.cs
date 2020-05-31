@@ -104,7 +104,7 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(798, 27);
             this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Text = "toolStrip";
             // 
             // toolStripShifr
             // 
@@ -161,14 +161,14 @@
             // ToolStripMenuItemInfoAboutTheProgramm
             // 
             this.ToolStripMenuItemInfoAboutTheProgramm.Name = "ToolStripMenuItemInfoAboutTheProgramm";
-            this.ToolStripMenuItemInfoAboutTheProgramm.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemInfoAboutTheProgramm.Size = new System.Drawing.Size(149, 22);
             this.ToolStripMenuItemInfoAboutTheProgramm.Text = "О программе";
             this.ToolStripMenuItemInfoAboutTheProgramm.Click += new System.EventHandler(this.ToolStripMenuItemInfoAboutTheProgramm_Click);
             // 
             // ToolStripMenuItemInfoHelp
             // 
             this.ToolStripMenuItemInfoHelp.Name = "ToolStripMenuItemInfoHelp";
-            this.ToolStripMenuItemInfoHelp.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemInfoHelp.Size = new System.Drawing.Size(149, 22);
             this.ToolStripMenuItemInfoHelp.Text = "Справка";
             this.ToolStripMenuItemInfoHelp.Click += new System.EventHandler(this.ToolStripMenuItemInfoHelp_Click);
             // 

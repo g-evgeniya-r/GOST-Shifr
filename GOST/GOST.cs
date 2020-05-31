@@ -29,7 +29,7 @@ namespace GOST
                        { 32, 1084 },
                        { 1086, 1078 },
                        {1077, 1090 } };
-        static int[,] substitution_block = { { 4, 14, 5, 7, 6, 4, 13, 1 },
+        int[,] substitution_block = { { 4, 14, 5, 7, 6, 4, 13, 1 },
                                              { 10, 11, 8, 13, 12, 11, 11, 15 },
                                              { 9, 4, 1, 10, 7, 10, 4, 13 },
                                              { 2, 12, 13, 1, 1, 0, 1, 0 },
@@ -45,7 +45,7 @@ namespace GOST
                                              { 15, 7, 0, 2, 3, 12, 8, 11 },
                                              { 5, 5, 9, 5, 11, 15, 2, 8 },
                                              { 3, 9, 11, 3, 2, 14, 12, 12 } };
-        static string processed = "";
+        string processed = "";
         string textFromFile = "", ext = "", sizeFile = "", fileNameDeshifr = "", demoR02 = "", demoR03="";
         bool flagDemo = false, flagDemoShifr = false, flagDemoDeshifr = false;
         int flagFurther = 0, schDemo = 0, schDemoKey = -1;
@@ -106,9 +106,10 @@ namespace GOST
                     else
                         X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
 
+                    
+                    long result = Conversion(R0, X0);
                     long[] L0Xor = new long[32];
                     long[] resultXor = new long[32];
-                    long result = Conversion(R0, X0);
                     for (int p = 31; p >= 0; p--)
                     {
                         L0Xor[p] = L0 % 2;
@@ -116,16 +117,12 @@ namespace GOST
                         resultXor[p] = result % 2;
                         result /= 2;
                     }
-                    long[] R1 = Xor(L0Xor, resultXor);
+                    long[] R1 = Xor(L0, result);
                     Processing(R1);
                     n -= 4;
                 }
                 if (!flag)
                 {
-                    // StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt", false, Encoding.UTF8);
-                    //StreamWriter sw = new StreamWriter("GOST-" + sizeFile + "-" + ext + "-.txt");
-                    //sw.Write(processed);
-                    //sw.Close();
                     using (FileStream fstream = new FileStream("GOST-" + sizeFile + "-" + ext + "-.txt", FileMode.OpenOrCreate))
                     {
                         byte[] array = Encoding.Default.GetBytes(processed);
@@ -149,7 +146,7 @@ namespace GOST
                 flagDemoShifr = true;
             }
         }
-        static string Binary(long x)
+        public string Binary(long x)
         {
             long[] mas = new long[16];
             string s = "";
@@ -223,9 +220,18 @@ namespace GOST
             return line2 << 11;
         }
 
-        public long[] Xor(long[] L0Xor, long[] resultXor)
+        public long[] Xor(long L0, long result)
         {
             long[] R1 = new long[32];
+            long[] L0Xor = new long[32];
+            long[] resultXor = new long[32];
+            for (int p = 31; p >= 0; p--)
+            {
+                L0Xor[p] = L0 % 2;
+                L0 /= 2;
+                resultXor[p] = result % 2;
+                result /= 2;
+            }
             for (int i = 0; i < 32; i++)
             {
                 if (L0Xor[i] == resultXor[i])
@@ -365,9 +371,7 @@ namespace GOST
 
             buttonCarryover.Hide();
 
-            if (textBoxProcessed.Text != "" && textBoxOriginal.Text != "")
-                Clipboard.SetDataObject(textBoxProcessed.Text);
-            else
+            if (textBoxProcessed.Text == "" && textBoxOriginal.Text == "")
                 MessageBox.Show("Поля очищены");
 
             textBoxOriginal.Text = "";
@@ -402,17 +406,8 @@ namespace GOST
                         X0 = key[j, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 1];
                     else
                         X0 = key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + key[j, 0];
-                    long[] R1Xor = new long[32];
-                    long[] resultXor = new long[32];
                     long result = Conversion(R0, X0);
-                    for (int p = 31; p >= 0; p--)
-                    {
-                        R1Xor[p] = R1 % 2;
-                        R1 /= 2;
-                        resultXor[p] = result % 2;
-                        result /= 2;
-                    }
-                    long[] L0 = Xor(R1Xor, resultXor);
+                    long[] L0 = Xor(R1, result);
                     Processing(L0);
 
                     processed += Convert.ToChar(R0 / Convert.ToInt64(Math.Pow(2, 16)));
@@ -422,15 +417,11 @@ namespace GOST
                 if (!flag)
                 {
                     string[] fnd = fileNameDeshifr.Split('-');
-                    // StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2], false, Encoding.UTF8);
-                    //StreamWriter sw = new StreamWriter("GOST-Deshifr" + fnd[fnd.Length - 2]);
                     using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
                     {
                         byte[] array = Encoding.Default.GetBytes(processed);
                         fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length - 3]));
                     }
-                    //sw.Write(processed);
-                    //sw.Close();
                     textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[fnd.Length - 2];
                 }
                 else
@@ -543,17 +534,7 @@ namespace GOST
                         {
                             pictureBoxDemoShifr1.Hide();
                             pictureBoxDemoShifr2.Show();
-                            long[] L0Xor = new long[32];
-                            long[] resultXor = new long[32];
-                            for (int p = 31; p >= 0; p--)
-                            {
-                                L0Xor[p] = demoL0 % 2;
-                                demoL0 /= 2;
-                                resultXor[p] = demoResult % 2;
-                                demoResult /= 2;
-                            }
-                            long[] R1 = Xor(L0Xor, resultXor);
-
+                            long[] R1 = Xor(demoL0, demoResult);
                             long[] R00 = new long[32];
                             string s = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16)));
                             for (int i = 0; i < 16; i++)
@@ -714,16 +695,7 @@ namespace GOST
                             {
                                 pictureBoxDemoDeshifr1.Hide();
                                 pictureBoxDemoDeshifr2.Show();
-                                long[] R1Xor = new long[32];
-                                long[] resultXor = new long[32];
-                                for (int p = 31; p >= 0; p--)
-                                {
-                                    R1Xor[p] = demoDR1 % 2;
-                                    demoDR1 /= 2;
-                                    resultXor[p] = demoResult % 2;
-                                    demoResult /= 2;
-                                }
-                                long[] L0 = Xor(R1Xor, resultXor);
+                                long[] L0 = Xor(demoDR1, demoResult);
                                 long[] R00 = new long[32];
                                 string s = Binary(demoDR1 / Convert.ToInt64(Math.Pow(2, 16)));
                                 for (int i = 0; i < 16; i++)
@@ -856,4 +828,5 @@ namespace GOST
             }
         }
     }
+    
 }
