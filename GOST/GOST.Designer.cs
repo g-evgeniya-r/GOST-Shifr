@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GOST));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripGOST = new System.Windows.Forms.ToolStrip();
             this.toolStripShifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripDeshifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripAttach = new System.Windows.Forms.ToolStripButton();
@@ -78,7 +78,7 @@
             this.pictureBoxDemoDeshifr0 = new System.Windows.Forms.PictureBox();
             this.pictureBoxDemoDeshifr1 = new System.Windows.Forms.PictureBox();
             this.pictureBoxDemoDeshifr2 = new System.Windows.Forms.PictureBox();
-            this.toolStrip1.SuspendLayout();
+            this.toolStripGOST.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayerOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr0)).BeginInit();
@@ -89,10 +89,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoDeshifr2)).BeginInit();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // toolStripGOST
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripGOST.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStripGOST.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripShifr,
             this.toolStripDeshifr,
             this.toolStripAttach,
@@ -100,11 +100,11 @@
             this.toolStripInfo,
             this.toolStripSeparator1,
             this.toolStripDemo});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(798, 27);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip";
+            this.toolStripGOST.Location = new System.Drawing.Point(0, 0);
+            this.toolStripGOST.Name = "toolStripGOST";
+            this.toolStripGOST.Size = new System.Drawing.Size(798, 27);
+            this.toolStripGOST.TabIndex = 0;
+            this.toolStripGOST.Text = "toolStrip";
             // 
             // toolStripShifr
             // 
@@ -662,12 +662,12 @@
             this.Controls.Add(this.labelOriginal);
             this.Controls.Add(this.textBoxProcessed);
             this.Controls.Add(this.textBoxOriginal);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStripGOST);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GOST";
             this.Text = "Шифрование ГОСТ";
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStripGOST.ResumeLayout(false);
+            this.toolStripGOST.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayerOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDemoShifr0)).EndInit();
@@ -683,7 +683,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStripGOST;
         private System.Windows.Forms.ToolStripButton toolStripShifr;
         private System.Windows.Forms.ToolStripButton toolStripDeshifr;
         private System.Windows.Forms.ToolStripButton toolStripAttach;
