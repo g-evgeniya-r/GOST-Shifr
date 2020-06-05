@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GOST
 {
-    class GOST147
+    class GOST28147
     {
         private int[,] Key;
         private string Text;
@@ -26,7 +26,7 @@ namespace GOST
                                 { 15, 7, 0, 2, 3, 12, 8, 11 },
                                 { 5, 5, 9, 5, 11, 15, 2, 8 },
                                 { 3, 9, 11, 3, 2, 14, 12, 12 } };
-        public GOST147(int[,] key, string text)
+        public GOST28147(int[,] key, string text)
         {
             Key = key;
             Text = text;

@@ -71,7 +71,7 @@ namespace GOST
                 
                 int n = textFromFile.Length;
                 if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
-                GOST147 shifr = new GOST147(key, textFromFile);
+                GOST28147 shifr = new GOST28147(key, textFromFile);
                 processed = shifr.Encrypt();
                 if (!flag)
                 {
@@ -189,7 +189,7 @@ namespace GOST
                 int n = textFromFile.Length;
                 textBoxProcessed.Text = "Идет обработка данных...";
                 if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
-                GOST147 shifr = new GOST147(key, textFromFile);
+                GOST28147 shifr = new GOST28147(key, textFromFile);
                 processed = shifr.Decrypt();
                 if (!flag)
                 {
@@ -220,7 +220,7 @@ namespace GOST
         {
             labelKey.Show();
             textBoxKey.Show();
-            GOST147 shifr = new GOST147(key, textBoxOriginal.Text);
+            GOST28147 shifr = new GOST28147(key, textBoxOriginal.Text);
             if (flagDemoShifr)
             {
                 int n;
