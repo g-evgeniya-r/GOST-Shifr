@@ -28,13 +28,22 @@ namespace GOST
                        { 1090, 1086 },
                        { 32, 1084 },
                        { 1086, 1078 },
-                       {1077, 1090 } };
-        string processed = "",  textFromFile = "", ext = "", sizeFile = "", fileNameDeshifr = "", demoR02 = "", demoR03="";
-        bool flagDemo = false, flagDemoShifr = false, flagDemoDeshifr = false;
-        int flagFurther = 0, schDemo = 0, schDemoKey = -1;
+                       {1077, 1090 } };//ключ для шифрования/дешифрования данных
+        string processed = ""; //переменная для обработанных данных
+        string textFromFile = ""; //переменная для входных данных
+        string ext = ""; //переменная для хранения расширения прикрепленного файла  
+        string sizeFile = ""; //переменная для хранения размера прикрепленного файла
+        string fileNameDeshifr = ""; //переменная для хванения названия прикрепленного файла, который нужно дешифровать
+        string demoR02 = "";
+        bool flagDemo = false; //истино, если включен демонстрационный режим
+        bool flagDemoShifr = false; //истино, если если включен демонстрационный режим для шифрования
+        bool flagDemoDeshifr = false; //истино, если если включен демонстрационный режим для дешифрования
+        int flagFurther = 0; //счетчик для переключения шагов шифрования/дешифрования во время демонстрационного режима
+        int schDemo = 0; //счетчик для переключения блоков шифрования во время демонстрационного режима
+        int schDemoKey = -1; //счетчик для смены подключа во время демонстрационного режима
         long demoResult, demoL0, demoR0, demoX0, demoDR0, demoDR1;
 
-        private void ToolStripMenuItemInfoHelp_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemInfoHelp_Click(object sender, EventArgs e)//активируется при нажатии на кнопку "Информация\Справка"
         {
             MessageBox.Show("Для того, чтобы зашифровать/дешифровать небольшой текст, введите его в поле " + '"' + "Исходные данные" + '"'
                 +  ", если же вам нужно зашифровать/дешифровать текст большого объема, картинку, видео или аудио, то нажмите на кнопку со знаком скрепки для того, чтобы прикрепить нужный файл " + 
@@ -43,7 +52,7 @@ namespace GOST
                 "Чтобы очистить поля и начать работу с программой сначала, нажмите кнопку со знаком пустого листа. Если вы вводили текст от руки, то при нажатии на эту кнопку обработанные данные скопируются в буфер обмена.");
         }
 
-        private void ToolStripMenuItemInfoAboutTheProgramm_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemInfoAboutTheProgramm_Click(object sender, EventArgs e)//активируется при нажатии на кнопку "Информация\О программе"
         {
             MessageBox.Show("Программа: Стандарт шифрования ГОСТ" + '\n' + '\n' +
                 "Изготовлена в рамках проектной работы по окончании первого курса ФМИТ СОГУ" + '\n' + '\n' +
@@ -57,12 +66,12 @@ namespace GOST
             InitializeComponent();
         }
 
-        private void toolStripShifr_Click(object sender, EventArgs e)
+        private void toolStripShifr_Click(object sender, EventArgs e)//активируется при нажатии на кнопку “Зашифровать”
         {
             if (!flagDemo)
             {
-                bool flag = false;
-                if (textBoxOriginal.Text != "")
+                bool flag = false; //флаг для проверки того, введены данные вручную (принимает значение true) или же получены через файл (принимает значение false)
+                if (textBoxOriginal.Text != "") //если тестовое поле не пусто, то данные введены вручную
                 {
                     textFromFile = textBoxOriginal.Text;
                     flag = true;
@@ -70,10 +79,10 @@ namespace GOST
                 textBoxProcessed.Text = "Идет обработка данных...";
                 
                 int n = textFromFile.Length;
-                if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
+                if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " "; //дополнение входных данных пробелами в том случае, если они имеют недостаточное количество бит
                 GOST28147 shifr = new GOST28147(key, textFromFile);
-                processed = shifr.Encrypt();
-                if (!flag)
+                processed = shifr.Encrypt();//шифрование входных данных в классе GOST28147
+                if (!flag)//если данные были получены из файла, то зашифрованные данные сохраняются в файл с названием GOST-(размер исходного файла)-(расширение исходного файла)-.txt
                 {
                     using (FileStream fstream = new FileStream("GOST-" + sizeFile + "-" + ext + "-.txt", FileMode.OpenOrCreate))
                     {
@@ -82,7 +91,7 @@ namespace GOST
                     }
                     textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-" + sizeFile + "-" + ext + "-.txt";
                 }
-                else
+                else//если данные были введены вручную, то зашифрованные данные появятся в текстовом поле в правой части формы
                 {
                     labelProcessed.Text = "Обработанные данные";
                     buttonCarryover.Show();
@@ -98,7 +107,7 @@ namespace GOST
                 flagDemoShifr = true;
             }
         }
-        public string Binary(long x)
+        public string Binary(long x)//функция для перевода входных данных в двоичную с.с.
         {
             long[] mas = new long[16];
             string s = "";
@@ -114,7 +123,7 @@ namespace GOST
             return s;
         }
 
-        private void toolStripCutOut_Click(object sender, EventArgs e)
+        private void toolStripCutOut_Click(object sender, EventArgs e)//активируется при нажатии на кнопку “Очистить поля”
         {
             labelProcessed.Text = "Информация о процессе";
             if (flagDemo)
@@ -169,29 +178,26 @@ namespace GOST
 
             buttonCarryover.Hide();
 
-            if (textBoxProcessed.Text == "" && textBoxOriginal.Text == "")
-                MessageBox.Show("Поля очищены");
-
             textBoxOriginal.Text = "";
             textBoxProcessed.Text = "";
         } 
 
-        private void toolStripDeshifr_Click(object sender, EventArgs e)
+        private void toolStripDeshifr_Click(object sender, EventArgs e)//активируется при нажатии на кнопку “Дешифровать”
         {
             if (!flagDemo)
             {
-                bool flag = false;
-                if (textBoxOriginal.Text != "")
+                bool flag = false; //флаг для проверки того, введены данные вручную (принимает значение true) или же получены через файл (принимает значение false)
+                if (textBoxOriginal.Text != "") //если тестовое поле не пусто, то данные введены вручную
                 {
                     textFromFile = textBoxOriginal.Text;
                     flag = true;
                 }
                 int n = textFromFile.Length;
                 textBoxProcessed.Text = "Идет обработка данных...";
-                if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " ";
+                if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " "; //дополнение входных данных пробелами в том случае, если они имеют недостаточное количество бит
                 GOST28147 shifr = new GOST28147(key, textFromFile);
-                processed = shifr.Decrypt();
-                if (!flag)
+                processed = shifr.Decrypt(); //дешифрование входных данных в классе GOST28147
+                if (!flag)//если данные были получены из файла, то зашифрованные данные сохраняются в файл с названием GOST-Deshifr.(расширение ранее зашифрованного файла)
                 {
                     string[] fnd = fileNameDeshifr.Split('-');
                     using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
@@ -201,7 +207,7 @@ namespace GOST
                     }
                     textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[fnd.Length - 2];
                 }
-                else
+                else//если данные были введены вручную, то дешифрованные данные появятся в текстовом поле в правой части формы
                 {
                     textBoxProcessed.Text = processed;
                     buttonCarryover.Show();
@@ -216,12 +222,12 @@ namespace GOST
             }
         }
         
-        private void buttonFurther_Click(object sender, EventArgs e)
+        private void buttonFurther_Click(object sender, EventArgs e)//активируется при нажатии на кнопку "Далее"
         {
             labelKey.Show();
             textBoxKey.Show();
             GOST28147 shifr = new GOST28147(key, textBoxOriginal.Text);
-            if (flagDemoShifr)
+            if (flagDemoShifr) //демонстрационный режим шифрования
             {
                 int n;
                 textBoxOriginal.Hide();
@@ -235,14 +241,12 @@ namespace GOST
 
                     demoL0 = Convert.ToInt64(textBoxOriginal.Text[schDemo]) *
                               Convert.ToInt64(Math.Pow(2, 16)) +
-                              Convert.ToInt64(textBoxOriginal.Text[schDemo + 1]);
+                              Convert.ToInt64(textBoxOriginal.Text[schDemo + 1]); //левая половина шифруемого блока
                     demoR0 = Convert.ToInt64(textBoxOriginal.Text[schDemo + 2]) *
                               Convert.ToInt64(Math.Pow(2, 16)) +
-                              Convert.ToInt64(textBoxOriginal.Text[schDemo + 3]);
-                    processed += (Convert.ToString(textBoxOriginal.Text[schDemo + 2]) +
-                                  Convert.ToString(textBoxOriginal.Text[schDemo + 3]));
+                              Convert.ToInt64(textBoxOriginal.Text[schDemo + 3]); //правая половина шифруемого блока
                     demoR02 = Convert.ToString(textBoxOriginal.Text[schDemo + 2]) +
-                                  Convert.ToString(textBoxOriginal.Text[schDemo + 3]);
+                                  Convert.ToString(textBoxOriginal.Text[schDemo + 3]); //сохранение правой половины шифруемого блока для отображения в текстовом поле
 
                     if (schDemoKey != 15)
                         demoX0 = key[schDemoKey, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[schDemoKey, 1];
@@ -278,22 +282,20 @@ namespace GOST
                     labelDemoInfo3.Text = "Подключ:";
                     labelDemoInfo3.Show();
 
-                    textBoxL01.Text = Convert.ToString(textBoxOriginal.Text[schDemo]);
-                    textBoxL02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 1]);
-                    textBoxL03.Text = Binary(demoL0 / Convert.ToInt64(Math.Pow(2, 16)));
-                    textBoxL04.Text = Binary(demoL0 % Convert.ToInt64(Math.Pow(2, 16)));
+                    textBoxL01.Text = Convert.ToString(textBoxOriginal.Text[schDemo]); //запись первого символа левой половины шифруемого блока в текстовое поле
+                    textBoxL02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 1]); //запись второго символа левой половины шифруемого блока в текстовое поле
+                    textBoxL03.Text = Binary(demoL0 / Convert.ToInt64(Math.Pow(2, 16))); //запись первого символа левой половины шифруемого блока, представленного в двоичном виде, в текстовое поле
+                    textBoxL04.Text = Binary(demoL0 % Convert.ToInt64(Math.Pow(2, 16))); //запись второго символа левой половины шифруемого блока, представленного в двоичном виде, в текстовое поле
 
-                    textBoxR01.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 2]);
-                    textBoxR02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 3]);
-                    textBoxR03.Text = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16)));
-                    textBoxR04.Text = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16)));
+                    textBoxR01.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 2]); //запись первого символа правой половины шифруемого блока в текстовое поле
+                    textBoxR02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 3]); //запись второго символа правой половины шифруемого блока в текстовое поле
+                    textBoxR03.Text = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16))); //запись первого символа правой половины шифруемого блока, представленного в двоичном виде, в текстовое поле
+                    textBoxR04.Text = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16))); //запись второго символа правой половины шифруемого блока, представленного в двоичном виде, в текстовое поле
 
-                    demoR03 = textBoxR03.Text + "" + textBoxR04.Text;
-
-                    textBoxX01.Text = Convert.ToString(Convert.ToChar(demoX0 / Convert.ToInt64(Math.Pow(2, 16))));
-                    textBoxX02.Text = Convert.ToString(Convert.ToChar(demoX0 % Convert.ToInt64(Math.Pow(2, 16))));
-                    textBoxX03.Text = Binary(demoX0 / Convert.ToInt64(Math.Pow(2, 16)));
-                    textBoxX04.Text = Binary(demoX0 % Convert.ToInt64(Math.Pow(2, 16)));
+                    textBoxX01.Text = Convert.ToString(Convert.ToChar(demoX0 / Convert.ToInt64(Math.Pow(2, 16)))); //запись левой части подключа в текстовое поле
+                    textBoxX02.Text = Convert.ToString(Convert.ToChar(demoX0 % Convert.ToInt64(Math.Pow(2, 16)))); //запись правой части подключа в текстовое поле
+                    textBoxX03.Text = Binary(demoX0 / Convert.ToInt64(Math.Pow(2, 16))); //запись левой части подключа, представленной в двоичном виде, в текстовое поле
+                    textBoxX04.Text = Binary(demoX0 % Convert.ToInt64(Math.Pow(2, 16))); //запись правой части подключа, представленной в двоичном виде, в текстовое поле
 
                     flagFurther = 1;
                 }
@@ -303,7 +305,7 @@ namespace GOST
                     {
                         pictureBoxDemoShifr0.Hide();
                         pictureBoxDemoShifr1.Show();
-                        demoResult = shifr.Conversion(demoR0, demoX0);
+                        demoResult = shifr.Conversion(demoR0, demoX0); //преобразование в классе GOST28147 (вычисление суммы правой половины шифруемого блока и подключа по mod 2^32, преобразование в блоке подстановки и сдвиг результата на 11 бит влево)
 
                         labelDemoInfo1.Text = "Вычисление суммы R0 и X0 по mod2^32:";
                         labelDemoInfo2.Show();
@@ -330,13 +332,13 @@ namespace GOST
                         textBoxR11.Show();
                         textBoxR12.Show();
                         textBoxR13.Show();
-                        long summ_mod32 = (demoR0 + demoX0) % Convert.ToInt64(Math.Pow(2, 32));
+                        long summ_mod32 = (demoR0 + demoX0) % Convert.ToInt64(Math.Pow(2, 32)); //вычисление суммы правой половины шифруемого блока и подключа по mod 2^32
                         textBoxR11.Text = Binary(summ_mod32 / Convert.ToInt64(Math.Pow(2, 16))) + "" +
-                                          Binary(summ_mod32 % Convert.ToInt64(Math.Pow(2, 16)));
+                                          Binary(summ_mod32 % Convert.ToInt64(Math.Pow(2, 16))); //запись суммы правой половины шифруемого блока и подключа по mod 2^32, представленной в двоичном виде, в текстовое поле
                         textBoxR12.Text = Binary((demoResult >> 11) / Convert.ToInt64(Math.Pow(2, 16))) + "" +
-                                          Binary((demoResult >> 11) % Convert.ToInt64(Math.Pow(2, 16)));
+                                          Binary((demoResult >> 11) % Convert.ToInt64(Math.Pow(2, 16))); //запись результата преобразования в блоке подстановки, представленного в двоичном виде, в текстовое поле
                         textBoxR13.Text = Binary(demoResult / Convert.ToInt64(Math.Pow(2, 16))) + "" +
-                                          Binary(demoResult % Convert.ToInt64(Math.Pow(2, 16)));
+                                          Binary(demoResult % Convert.ToInt64(Math.Pow(2, 16))); //запись сдвига последнего результата на 11 бит влево, представленного в двоичном виде, в текстовое поле
                         flagFurther = 2;
                     }
                     else
@@ -345,7 +347,7 @@ namespace GOST
                         {
                             pictureBoxDemoShifr1.Hide();
                             pictureBoxDemoShifr2.Show();
-                            long[] R1 = shifr.Xor(demoL0, demoResult);
+                            long[] R1 = shifr.Xor(demoL0, demoResult); //вычисление суммы левой половины шифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в классе GOST28147
                             labelDemoInfo1.Text = "Складываем данный результат с L0 по mod2";
                             labelL0R1.Text = "R1";
                             labelL0R1.Show();
@@ -360,7 +362,7 @@ namespace GOST
                             {
                                 ss += R1[i];
                             }
-                            textBoxR12.Text = ss;
+                            textBoxR12.Text = ss; //запись суммы левой половины шифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в текстовое поле
                             labelDemoInfo2.Hide();
                             textBoxR12.Hide();
                             labelDemoInfo3.Text = "Зашифрованные данные";
@@ -374,21 +376,10 @@ namespace GOST
                             textBoxR13.Hide();
                             textBoxX01.Show();
                             textBoxX02.Show();
-                            long[] R00 = new long[32];
-                            string s = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16)));
-                            for (int i = 0; i < 16; i++)
-                            {
-                                R00[i] = Convert.ToInt64(s[i]);
-                            }
-                            s = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16)));
-                            for (int i = 0; i < 16; i++)
-                            {
-                                R00[i + 16] = Convert.ToInt64(s[i]);
-                            }
-                            textBoxX01.Text = demoR02;
+                            textBoxX01.Text = demoR02; //запись правой половины шифруемого блока
                             string str = "";
-                            str = shifr.Processing(R1, str);
-                            textBoxX02.Text += str;
+                            str = shifr.Processing(R1, str); //получение зашифрованных символов из класса GOST28147 
+                            textBoxX02.Text += str; //запись зашифрованных символов в текстовое поле
                             if (schDemo != textBoxOriginal.Text.Length - 4)
                             {
                                 schDemo += 4;
@@ -445,7 +436,7 @@ namespace GOST
                     }
                 }
             }
-            else
+            else //демонстрационный режим дешифрования
             {
                 if (flagDemoDeshifr)
                 {
@@ -461,12 +452,12 @@ namespace GOST
 
                         demoDR0 = Convert.ToInt64(textBoxOriginal.Text[schDemo]) *
                                   Convert.ToInt64(Math.Pow(2, 16)) +
-                                  Convert.ToInt64(textBoxOriginal.Text[schDemo + 1]);
+                                  Convert.ToInt64(textBoxOriginal.Text[schDemo + 1]); //левая половина шифруемого блока
                         demoDR1 = Convert.ToInt64(textBoxOriginal.Text[schDemo + 2]) *
                                   Convert.ToInt64(Math.Pow(2, 16)) +
-                                  Convert.ToInt64(textBoxOriginal.Text[schDemo + 3]);
+                                  Convert.ToInt64(textBoxOriginal.Text[schDemo + 3]); //правая половина шифруемого блока
                         demoR02 = Convert.ToString(textBoxOriginal.Text[schDemo]) +
-                                      Convert.ToString(textBoxOriginal.Text[schDemo + 1]);
+                                      Convert.ToString(textBoxOriginal.Text[schDemo + 1]); //сохранение левой половины шифруемого блока для отображения в текстовом поле
 
                         if (schDemoKey != 15)
                             demoX0 = key[schDemoKey, 0] * Convert.ToInt64(Math.Pow(2, 16)) + key[schDemoKey, 1];
@@ -502,22 +493,20 @@ namespace GOST
                         labelDemoInfo3.Text = "Подключ:";
                         labelDemoInfo3.Show();
 
-                        textBoxL01.Text = Convert.ToString(textBoxOriginal.Text[schDemo]);
-                        textBoxL02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 1]);
-                        textBoxL03.Text = Binary(demoL0 / Convert.ToInt64(Math.Pow(2, 16)));
-                        textBoxL04.Text = Binary(demoL0 % Convert.ToInt64(Math.Pow(2, 16)));
+                        textBoxL01.Text = Convert.ToString(textBoxOriginal.Text[schDemo]); //запись первого символа левой половины дешифруемого блока в текстовое поле
+                        textBoxL02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 1]); //запись второго символа левой половины дешифруемого блока в текстовое поле
+                        textBoxL03.Text = Binary(demoL0 / Convert.ToInt64(Math.Pow(2, 16))); //запись первого символа левой половины дешифруемого блока, представленного в двоичном виде, в текстовое поле
+                        textBoxL04.Text = Binary(demoL0 % Convert.ToInt64(Math.Pow(2, 16))); //запись второго символа левой половины дешифруемого блока, представленного в двоичном виде, в текстовое поле
 
-                        textBoxR01.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 2]);
-                        textBoxR02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 3]);
-                        textBoxR03.Text = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16)));
-                        textBoxR04.Text = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16)));
+                        textBoxR01.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 2]); //запись первого символа правой половины дешифруемого блока в текстовое поле
+                        textBoxR02.Text = Convert.ToString(textBoxOriginal.Text[schDemo + 3]); //запись второго символа правой половины дешифруемого блока в текстовое поле
+                        textBoxR03.Text = Binary(demoR0 / Convert.ToInt64(Math.Pow(2, 16))); //запись первого символа правой половины дешифруемого блока, представленного в двоичном виде, в текстовое поле
+                        textBoxR04.Text = Binary(demoR0 % Convert.ToInt64(Math.Pow(2, 16))); //запись второго символа правой половины дешифруемого блока, представленного в двоичном виде, в текстовое поле
 
-                        demoR03 = textBoxR03.Text + "" + textBoxR04.Text;
-
-                        textBoxX01.Text = Convert.ToString(Convert.ToChar(demoX0 / Convert.ToInt64(Math.Pow(2, 16))));
-                        textBoxX02.Text = Convert.ToString(Convert.ToChar(demoX0 % Convert.ToInt64(Math.Pow(2, 16))));
-                        textBoxX03.Text = Binary(demoX0 / Convert.ToInt64(Math.Pow(2, 16)));
-                        textBoxX04.Text = Binary(demoX0 % Convert.ToInt64(Math.Pow(2, 16)));
+                        textBoxX01.Text = Convert.ToString(Convert.ToChar(demoX0 / Convert.ToInt64(Math.Pow(2, 16)))); //запись левой части подключа в текстовое поле
+                        textBoxX02.Text = Convert.ToString(Convert.ToChar(demoX0 % Convert.ToInt64(Math.Pow(2, 16)))); //запись правой части подключа в текстовое поле
+                        textBoxX03.Text = Binary(demoX0 / Convert.ToInt64(Math.Pow(2, 16))); //запись левой части подключа, представленной в двоичном виде, в текстовое поле
+                        textBoxX04.Text = Binary(demoX0 % Convert.ToInt64(Math.Pow(2, 16))); //запись правой части подключа, представленной в двоичном виде, в текстовое поле
 
                         flagFurther = 1;
                     }
@@ -527,7 +516,7 @@ namespace GOST
                         {
                             pictureBoxDemoDeshifr0.Hide();
                             pictureBoxDemoDeshifr1.Show();
-                            demoResult = shifr.Conversion(demoDR0, demoX0);
+                            demoResult = shifr.Conversion(demoDR0, demoX0); //преобразование в классе GOST28147 (вычисление суммы левой половины дешифруемого блока и подключа по mod 2^32, преобразование в блоке подстановки и сдвиг результата на 11 бит влево)
 
                             labelDemoInfo1.Text = "Вычисление суммы R0 и X0 по mod2^32:";
                             labelDemoInfo2.Show();
@@ -554,13 +543,13 @@ namespace GOST
                             textBoxR11.Show();
                             textBoxR12.Show();
                             textBoxR13.Show();
-                            long summ_mod32 = (demoDR0 + demoX0) % Convert.ToInt64(Math.Pow(2, 32));
+                            long summ_mod32 = (demoDR0 + demoX0) % Convert.ToInt64(Math.Pow(2, 32)); //вычисление суммы левой половины дешифруемого блока и подключа по mod 2^32
                             textBoxR11.Text = Binary(summ_mod32 / Convert.ToInt64(Math.Pow(2, 16))) + "" +
-                                              Binary(summ_mod32 % Convert.ToInt64(Math.Pow(2, 16)));
+                                              Binary(summ_mod32 % Convert.ToInt64(Math.Pow(2, 16))); //запись суммы левой половины дешифруемого блока и подключа по mod 2^32, представленной в двоичном виде, в текстовое поле
                             textBoxR12.Text = Binary((demoResult >> 11) / Convert.ToInt64(Math.Pow(2, 16))) + "" +
-                                              Binary((demoResult >> 11) % Convert.ToInt64(Math.Pow(2, 16)));
+                                              Binary((demoResult >> 11) % Convert.ToInt64(Math.Pow(2, 16))); //запись результата преобразования в блоке подстановки, представленного в двоичном виде, в текстовое поле
                             textBoxR13.Text = Binary(demoResult / Convert.ToInt64(Math.Pow(2, 16))) + "" +
-                                              Binary(demoResult % Convert.ToInt64(Math.Pow(2, 16)));
+                                              Binary(demoResult % Convert.ToInt64(Math.Pow(2, 16))); //запись сдвига последнего результата на 11 бит влево, представленного в двоичном виде, в текстовое поле
 
                             flagFurther = 2;
                         }
@@ -570,7 +559,7 @@ namespace GOST
                             {
                                 pictureBoxDemoDeshifr1.Hide();
                                 pictureBoxDemoDeshifr2.Show();
-                                long[] L0 = shifr.Xor(demoDR1, demoResult);
+                                long[] L0 = shifr.Xor(demoDR1, demoResult); //вычисление суммы правой половины дешифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в классе GOST28147
                                 labelDemoInfo1.Text = "Складываем данный результат с R1 по mod2";
                                 labelL0R1.Text = "L0";
                                 labelL0R1.Show();
@@ -585,7 +574,7 @@ namespace GOST
                                 {
                                     ss += L0[i];
                                 }
-                                textBoxR12.Text = ss;
+                                textBoxR12.Text = ss; //запись суммы правой половины дешифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в текстовое поле
                                 labelDemoInfo2.Hide();
                                 textBoxR12.Hide();
                                 labelDemoInfo3.Text = "Дешифрованные данные";
@@ -599,23 +588,10 @@ namespace GOST
                                 textBoxR13.Hide();
                                 textBoxX01.Show();
                                 textBoxX02.Show();
-
-                                long[] R00 = new long[32];
-                                string s = Binary(demoDR1 / Convert.ToInt64(Math.Pow(2, 16)));
-                                for (int i = 0; i < 16; i++)
-                                {
-                                    R00[i] = Convert.ToInt64(s[i]);
-                                }
-                                s = Binary(demoDR1 % Convert.ToInt64(Math.Pow(2, 16)));
-                                for (int i = 0; i < 16; i++)
-                                {
-                                    R00[i + 16] = Convert.ToInt64(s[i]);
-                                }
-                                textBoxX02.Text = demoR02;
+                                textBoxX02.Text = demoR02; //запись левой половины дешифруемого блока
                                 string str = "";
-                                str = shifr.Processing(L0, str);
-                                textBoxX01.Text += str;
-                                processed += demoR02;
+                                str = shifr.Processing(L0, str); //получение дешифрованных символов из класса GOST28147
+                                textBoxX01.Text += str; //запись дешифрованных символов в текстовое поле
                                 if (schDemo != textBoxOriginal.Text.Length - 4)
                                 {
                                     schDemo += 4;
@@ -675,7 +651,7 @@ namespace GOST
             }
         }
 
-        private void toolStripDemo_Click(object sender, EventArgs e)
+        private void toolStripDemo_Click(object sender, EventArgs e)//активируется при нажатии на кнопку "Демонстрационный режим"
         {
             flagDemo = true;
             if (textBoxOriginal.Text != "")
@@ -689,29 +665,28 @@ namespace GOST
             }
         }
 
-        private void buttonCarryover_Click(object sender, EventArgs e)
+        private void buttonCarryover_Click(object sender, EventArgs e)//активируется при нажатии на кнопку с изображением стрелки влево
         {
-            textBoxOriginal.Text = textBoxProcessed.Text;
+            textBoxOriginal.Text = textBoxProcessed.Text; //перенос обработанных данных в поле с исходными данными
             textBoxProcessed.Clear();
         }
 
-        private void toolStripAttach_Click(object sender, EventArgs e)
+        private void toolStripAttach_Click(object sender, EventArgs e)//активируется при нажатии на кнопку "Прикрепить файл"
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Filter = "All files(*.*)|*.*";
             if (op.ShowDialog() == DialogResult.OK)
             {
-                using (FileStream fstream = File.OpenRead(op.FileName))
+                using (FileStream fstream = File.OpenRead(op.FileName))//чтение из файла
                 {
-                    sizeFile = "" + fstream.Length;
-                    fileNameDeshifr = op.FileName;
-                    byte[] array = new byte[fstream.Length];
-                    fstream.Read(array, 0, array.Length);
-                    textFromFile = Encoding.Default.GetString(array);
-                    fstream.Close();
+                    sizeFile = "" + fstream.Length; //запись размера исходного файла
+                    fileNameDeshifr = op.FileName; //запись названия исходного файла
+                    byte[] array = new byte[fstream.Length]; //массив для преобразования строки в байты
+                    fstream.Read(array, 0, array.Length); //считывание данных
+                    textFromFile = Encoding.Default.GetString(array); //декодирование байтов в строку
                 }
                 
-                ext = Path.GetExtension(op.FileName);
+                ext = Path.GetExtension(op.FileName); //запись расширения исходного файла
                 if (ext == ".txt")
                 {
                     textBoxProcessed.Text = "Выберете, что хотите сделать с файлом, и обработка начнется";

@@ -663,6 +663,7 @@
             this.Controls.Add(this.textBoxProcessed);
             this.Controls.Add(this.textBoxOriginal);
             this.Controls.Add(this.toolStripGOST);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GOST";
             this.Text = "Шифрование ГОСТ";
