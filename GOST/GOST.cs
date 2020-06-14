@@ -123,63 +123,9 @@ namespace GOST
             return s;
         }
 
-        private void toolStripCutOut_Click(object sender, EventArgs e)//активируется при нажатии на кнопку “Очистить поля”
+        private void toolStripClear_Click(object sender, EventArgs e)//активируется при нажатии на кнопку “Очистить поля”
         {
-            labelProcessed.Text = "Информация о процессе";
-            if (flagDemo)
-            {
-                labelKey.Hide();
-                textBoxKey.Hide();
-                textBoxOriginal.Show();
-                pictureBoxDemoShifr0.Hide();
-                pictureBoxDemoShifr1.Hide();
-                pictureBoxDemoShifr2.Hide();
-                pictureBoxDemoDeshifr0.Hide();
-                pictureBoxDemoDeshifr1.Hide();
-                pictureBoxDemoDeshifr2.Hide();
-                flagDemo = false;
-                flagDemoShifr = false;
-                flagDemoDeshifr = false;
-                flagFurther = 0;
-                schDemo = 0; 
-                schDemoKey = -1;
-                labelDemoInfo1.Hide();
-                labelDemoInfo2.Hide();
-                labelDemoInfo3.Hide();
-                textBoxR11.Hide();
-                textBoxR12.Hide();
-                textBoxR13.Hide();
-                labelR0.Hide();
-                labelR1.Hide();
-                labelR0R0.Hide();
-                labelL0R1.Hide();
-                labelX0.Hide();
-                textBoxProcessed.Show();
-                textBoxL01.Hide();
-                textBoxL02.Hide();
-                textBoxL03.Hide();
-                textBoxL04.Hide();
-                textBoxR01.Hide();
-                textBoxR02.Hide();
-                textBoxR03.Hide();
-                textBoxR04.Hide();
-                textBoxX01.Hide();
-                textBoxX02.Hide();
-                textBoxX03.Hide();
-                textBoxX04.Hide();
-                buttonFurther.Hide();
-            }
-
-            pictureBoxOriginal.Image = null;
-            pictureBoxOriginal.Hide();
-
-            axWindowsMediaPlayerOriginal.URL = null;
-            axWindowsMediaPlayerOriginal.Hide();
-
-            buttonCarryover.Hide();
-
-            textBoxOriginal.Text = "";
-            textBoxProcessed.Text = "";
+            Application.Restart();
         } 
 
         private void toolStripDeshifr_Click(object sender, EventArgs e)//активируется при нажатии на кнопку “Дешифровать”
@@ -192,27 +138,36 @@ namespace GOST
                     textFromFile = textBoxOriginal.Text;
                     flag = true;
                 }
-                int n = textFromFile.Length;
-                textBoxProcessed.Text = "Идет обработка данных...";
-                if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " "; //дополнение входных данных пробелами в том случае, если они имеют недостаточное количество бит
-                GOST28147 shifr = new GOST28147(key, textFromFile);
-                processed = shifr.Decrypt(); //дешифрование входных данных в классе GOST28147
-                if (!flag)//если данные были получены из файла, то зашифрованные данные сохраняются в файл с названием GOST-Deshifr.(расширение ранее зашифрованного файла)
+                string[] fnd = { };
+                if (!flag) fnd = fileNameDeshifr.Split('-');
+                if (flag || !flag && fnd[fnd.Length - 2] == ".txt")
                 {
-                    string[] fnd = fileNameDeshifr.Split('-');
-                    using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
+                    int n = textFromFile.Length;
+                    textBoxProcessed.Text = "Идет обработка данных...";
+                    if (n % 4 != 0) for (int i = 0; i < 4 - n % 4; i++) textFromFile += " "; //дополнение входных данных пробелами в том случае, если они имеют недостаточное количество бит
+                    GOST28147 shifr = new GOST28147(key, textFromFile);
+                    processed = shifr.Decrypt(); //дешифрование входных данных в классе GOST28147
+                    if (!flag)//если данные были получены из файла, то зашифрованные данные сохраняются в файл с названием GOST-Deshifr.(расширение ранее зашифрованного файла)
                     {
-                        byte[] array = Encoding.Default.GetBytes(processed);
-                        fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length - 3]));
+                        using (FileStream fstream = new FileStream("GOST-Deshifr" + fnd[fnd.Length - 2], FileMode.OpenOrCreate))
+                        {
+                            byte[] array = Encoding.Default.GetBytes(processed);
+                            fstream.Write(array, 0, Convert.ToInt32(fnd[fnd.Length - 3]));
+                        }
+                        textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[fnd.Length - 2];
                     }
-                    textBoxProcessed.Text = "Обработанные данные сохранены в файл, с названием " + "GOST-Deshifr" + fnd[fnd.Length - 2];
+                    else//если данные были введены вручную, то дешифрованные данные появятся в текстовом поле в правой части формы
+                    {
+                        textBoxProcessed.Text = processed;
+                        buttonCarryover.Show();
+                    }
+                    processed = "";
                 }
-                else//если данные были введены вручную, то дешифрованные данные появятся в текстовом поле в правой части формы
+                else
                 {
-                    textBoxProcessed.Text = processed;
-                    buttonCarryover.Show();
+                    MessageBox.Show("В текущей версии приложения не доступно дешифрование картинок, видео и аудио", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    textBoxProcessed.Clear();
                 }
-                processed = "";
             }
             else
             {

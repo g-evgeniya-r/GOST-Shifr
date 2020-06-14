@@ -33,7 +33,7 @@
             this.toolStripShifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripDeshifr = new System.Windows.Forms.ToolStripButton();
             this.toolStripAttach = new System.Windows.Forms.ToolStripButton();
-            this.toolStripCutOut = new System.Windows.Forms.ToolStripButton();
+            this.toolStripClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripInfo = new System.Windows.Forms.ToolStripDropDownButton();
             this.ToolStripMenuItemInfoAboutTheProgramm = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemInfoHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,7 +96,7 @@
             this.toolStripShifr,
             this.toolStripDeshifr,
             this.toolStripAttach,
-            this.toolStripCutOut,
+            this.toolStripClear,
             this.toolStripInfo,
             this.toolStripSeparator1,
             this.toolStripDemo});
@@ -136,15 +136,15 @@
             this.toolStripAttach.Text = "Прикрепить файл";
             this.toolStripAttach.Click += new System.EventHandler(this.toolStripAttach_Click);
             // 
-            // toolStripCutOut
+            // toolStripClear
             // 
-            this.toolStripCutOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripCutOut.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCutOut.Image")));
-            this.toolStripCutOut.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripCutOut.Name = "toolStripCutOut";
-            this.toolStripCutOut.Size = new System.Drawing.Size(24, 24);
-            this.toolStripCutOut.Text = "Очистить поля";
-            this.toolStripCutOut.Click += new System.EventHandler(this.toolStripCutOut_Click);
+            this.toolStripClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripClear.Image = ((System.Drawing.Image)(resources.GetObject("toolStripClear.Image")));
+            this.toolStripClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripClear.Name = "toolStripClear";
+            this.toolStripClear.Size = new System.Drawing.Size(24, 24);
+            this.toolStripClear.Text = "Очистить поля";
+            this.toolStripClear.Click += new System.EventHandler(this.toolStripClear_Click);
             // 
             // toolStripInfo
             // 
@@ -688,7 +688,7 @@
         private System.Windows.Forms.ToolStripButton toolStripShifr;
         private System.Windows.Forms.ToolStripButton toolStripDeshifr;
         private System.Windows.Forms.ToolStripButton toolStripAttach;
-        private System.Windows.Forms.ToolStripButton toolStripCutOut;
+        private System.Windows.Forms.ToolStripButton toolStripClear;
         private System.Windows.Forms.TextBox textBoxOriginal;
         private System.Windows.Forms.TextBox textBoxProcessed;
         private System.Windows.Forms.Label labelOriginal;
