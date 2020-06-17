@@ -54,7 +54,9 @@ namespace GOST
                     X0 = Key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + Key[j, 0];
 
                 long result = Conversion(R0, X0);
-                long[] R1 = Xor(L0, result);
+                //long[] R1 = Xor(L0, result);
+                //Processed = Processing(R1, Processed);
+                long R1 = Xor(L0, result);
                 Processed = Processing(R1, Processed);
             }
             return Processed;
@@ -78,9 +80,10 @@ namespace GOST
                 else
                     X0 = Key[j, 1] * Convert.ToInt64(Math.Pow(2, 16)) + Key[j, 0];
                 long result = Conversion(R0, X0);
-                long[] L0 = Xor(R1, result);
+                //long[] L0 = Xor(R1, result);
+                //Processed = Processing(L0, Processed);
+                long L0 = Xor(R1, result);
                 Processed = Processing(L0, Processed);
-
                 Processed += Convert.ToChar(R0 / Convert.ToInt64(Math.Pow(2, 16)));
                 Processed += Convert.ToChar(R0 % Convert.ToInt64(Math.Pow(2, 16)));
             }
@@ -109,41 +112,17 @@ namespace GOST
                          line[7]; //объединение 4-битных блоков
             return line2 << 11;
         }
-        public long[] Xor(long L0, long result)
+        public long Xor(long L0, long result)
         {
-            long[] R1 = new long[32]; //массив для результата вычисления суммы левой половины шифруемого блока и результата, полученного из метода  Conversion, по mod 2
-            long[] L0Xor = new long[32];
-            long[] resultXor = new long[32];
-            for (int p = 31; p >= 0; p--) //разбиение входных данных по 1 биту
-            {
-                L0Xor[p] = L0 % 2;
-                L0 /= 2;
-                resultXor[p] = result % 2;
-                result /= 2;
-            }
-            for (int i = 0; i < 32; i++) //вычисление суммы по mod 2
-            {
-                if (L0Xor[i] == resultXor[i])
-                    R1[i] = 0;
-                else
-                    R1[i] = 1;
-            }
+            long R1 = (L0 ^ result) % Convert.ToInt64(Math.Pow(2, 32));
             return R1;
         }
-        public string Processing(long[] R1, string Processed)
+        public string Processing(long R1, string Processed)
         {
-            long kod = 0; //переменная для обработанного символа
-            for (int j = 0; j < 16; j++)//получение кода первого из двух обработанных символов
-            {
-                kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15 - j)));
-            }
+            long kod = R1 / Convert.ToInt64(Math.Pow(2, 16)); //получение кода первого из двух обработанных символов
             Processed += Convert.ToChar(kod);
 
-            kod = 0;
-            for (int j = 16; j < 32; j++)//получение кода второго из двух обработанных символов
-            {
-                kod += (R1[j] * Convert.ToInt64(Math.Pow(2, 15 - (j - 16))));
-            }
+            kod = R1 % Convert.ToInt64(Math.Pow(2, 16)); //получение кода второго из двух обработанных символов
             Processed += Convert.ToChar(kod);
             return Processed;
         }

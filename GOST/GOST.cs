@@ -302,22 +302,13 @@ namespace GOST
                         {
                             pictureBoxDemoShifr1.Hide();
                             pictureBoxDemoShifr2.Show();
-                            long[] R1 = shifr.Xor(demoL0, demoResult); //вычисление суммы левой половины шифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в классе GOST28147
+                            long R1 = shifr.Xor(demoL0, demoResult); //вычисление суммы левой половины шифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в классе GOST28147
                             labelDemoInfo1.Text = "Складываем данный результат с L0 по mod2";
                             labelL0R1.Text = "R1";
                             labelL0R1.Show();
                             labelR0.Show();
-                            string ss = "";
-                            for (int i = 0; i < 16; i++)
-                            {
-                                ss += R1[i];
-                            }
-                            ss += " ";
-                            for (int i = 16; i < 32; i++)
-                            {
-                                ss += R1[i];
-                            }
-                            textBoxR12.Text = ss; //запись суммы левой половины шифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в текстовое поле
+                            
+                            textBoxR12.Text = Binary(R1 / Convert.ToInt64(Math.Pow(2, 16))) + " " + Binary(R1 % Convert.ToInt64(Math.Pow(2, 16))); //запись суммы левой половины шифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в текстовое поле
                             labelDemoInfo2.Hide();
                             textBoxR12.Hide();
                             labelDemoInfo3.Text = "Зашифрованные данные";
@@ -348,45 +339,7 @@ namespace GOST
                         }
                         else
                         {
-                            flagDemoShifr = false;
-                            labelKey.Hide();
-                            textBoxKey.Hide();
-                            textBoxOriginal.Show();
-                            pictureBoxDemoShifr0.Hide();
-                            pictureBoxDemoShifr1.Hide();
-                            pictureBoxDemoShifr2.Hide();
-                            flagDemo = false;
-                            flagFurther = 0;
-                            schDemo = 0;
-                            schDemoKey = -1;
-                            labelDemoInfo1.Hide();
-                            textBoxR11.Hide();
-                            labelDemoInfo2.Hide();
-                            textBoxR12.Hide();
-                            labelDemoInfo3.Hide();
-                            textBoxR13.Hide();
-                            labelR0.Hide();
-                            labelR1.Hide();
-                            labelR0R0.Hide();
-                            labelL0R1.Hide();
-                            textBoxProcessed.Text = "";
-                            textBoxProcessed.Show();
-                            textBoxL01.Hide();
-                            textBoxL02.Hide();
-                            textBoxL03.Hide();
-                            textBoxL04.Hide();
-                            textBoxR01.Hide();
-                            textBoxR02.Hide();
-                            textBoxR03.Hide();
-                            textBoxR04.Hide();
-                            textBoxX01.Hide();
-                            textBoxX02.Hide();
-                            textBoxX03.Hide();
-                            textBoxX04.Hide();
-                            textBoxOriginal.Text = "";
-                            labelProcessed.Text = "Информация о процессе";
-                            buttonFurther.Hide();
-                            buttonFurther.Text = "Далее";
+                            Application.Restart(); //завершение демо режима
                         }
                     }
                 }
@@ -514,22 +467,12 @@ namespace GOST
                             {
                                 pictureBoxDemoDeshifr1.Hide();
                                 pictureBoxDemoDeshifr2.Show();
-                                long[] L0 = shifr.Xor(demoDR1, demoResult); //вычисление суммы правой половины дешифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в классе GOST28147
+                                long L0 = shifr.Xor(demoDR1, demoResult); //вычисление суммы правой половины дешифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в классе GOST28147
                                 labelDemoInfo1.Text = "Складываем данный результат с R1 по mod2";
                                 labelL0R1.Text = "L0";
                                 labelL0R1.Show();
                                 labelR0.Show();
-                                string ss = "";
-                                for (int i = 0; i < 16; i++)
-                                {
-                                    ss += L0[i];
-                                }
-                                ss += " ";
-                                for (int i = 16; i < 32; i++)
-                                {
-                                    ss += L0[i];
-                                }
-                                textBoxR12.Text = ss; //запись суммы правой половины дешифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в текстовое поле
+                                textBoxR12.Text = Binary(L0 / Convert.ToInt64(Math.Pow(2, 16))) + " " + Binary(L0 % Convert.ToInt64(Math.Pow(2, 16))); ; //запись суммы правой половины дешифруемого блока и результата, полученного из метода Conversion класса GOST28147, по mod 2 в текстовое поле
                                 labelDemoInfo2.Hide();
                                 textBoxR12.Hide();
                                 labelDemoInfo3.Text = "Дешифрованные данные";
@@ -560,45 +503,7 @@ namespace GOST
                             }
                             else
                             {
-                                flagDemoDeshifr = false;
-                                labelKey.Hide();
-                                textBoxKey.Hide();
-                                textBoxOriginal.Show();
-                                pictureBoxDemoDeshifr0.Hide();
-                                pictureBoxDemoDeshifr1.Hide();
-                                pictureBoxDemoDeshifr2.Hide();
-                                flagDemo = false;
-                                flagFurther = 0;
-                                schDemo = 0;
-                                schDemoKey = -1;
-                                labelDemoInfo1.Hide();
-                                textBoxR11.Hide();
-                                labelDemoInfo2.Hide();
-                                textBoxR12.Hide();
-                                labelDemoInfo3.Hide();
-                                textBoxR13.Hide();
-                                labelR0.Hide();
-                                labelR1.Hide();
-                                labelR0R0.Hide();
-                                labelL0R1.Hide();
-                                textBoxProcessed.Text = "";
-                                textBoxProcessed.Show();
-                                textBoxL01.Hide();
-                                textBoxL02.Hide();
-                                textBoxL03.Hide();
-                                textBoxL04.Hide();
-                                textBoxR01.Hide();
-                                textBoxR02.Hide();
-                                textBoxR03.Hide();
-                                textBoxR04.Hide();
-                                textBoxX01.Hide();
-                                textBoxX02.Hide();
-                                textBoxX03.Hide();
-                                textBoxX04.Hide();
-                                textBoxOriginal.Text = "";
-                                labelProcessed.Text = "Информация о процессе";
-                                buttonFurther.Hide();
-                                buttonFurther.Text = "Далее";
+                                Application.Restart(); //завершение демо режима
                             }
                         }
                     }
